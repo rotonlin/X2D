@@ -8,8 +8,6 @@
 
 #include "Math.h"
 
-X2D_START
-
 //vectors impl
 void Vector2::Add(const Vector2 &rVec)
 {
@@ -63,5 +61,3 @@ void Vector3::Cross(const Vector3 &rVec)
 }
 
 //-----------------------------------------------------------------
-
-X2D_END

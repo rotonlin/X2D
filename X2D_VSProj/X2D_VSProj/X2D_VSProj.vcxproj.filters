@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{b441cee5-24e1-4117-9a59-77ea5da9a291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{a28f41b8-a892-47ab-91d9-3f8b25d935e3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\Math.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\Object.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\render\Render_GLES.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\core\Macros.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Math.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Object.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Ref.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\render\Render_GLES.h">
+      <Filter>render</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

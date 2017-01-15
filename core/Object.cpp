@@ -8,8 +8,6 @@
 
 #include "Object.h"
 
-X2D_START
-
 Object::Object()
 {
 
@@ -19,5 +17,3 @@ Object::~Object()
 {
 
 }
-
-X2D_END

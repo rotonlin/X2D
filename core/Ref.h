@@ -11,8 +11,6 @@
 
 #include "core/Macros.h"
 
-X2D_START
-
 template<class T>
 class RefPtr
 {
@@ -80,7 +78,5 @@ public:
 private:
     RefPtr<T> *_pRefPt;
 };
-
-X2D_END
 
 #endif /* Ref_h */

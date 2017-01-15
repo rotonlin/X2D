@@ -9,10 +9,6 @@
 #ifndef Math_h
 #define Math_h
 
-#include "core/Macros.h"
-
-X2D_START
-
 #define VECTOR_METHODS(vector) \
 void Add(const vector& rVec);\
 void Sub(const vector& rVec);\
@@ -67,7 +63,5 @@ class Math
 public:
 
 };
-
-X2D_END
 
 #endif /* Math_h */

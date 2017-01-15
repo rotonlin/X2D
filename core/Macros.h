@@ -9,7 +9,4 @@
 #ifndef Macros_h
 #define Macros_h
 
-#define X2D_START namespace x2d {
-#define X2D_END }
-
 #endif /* Macros_h */

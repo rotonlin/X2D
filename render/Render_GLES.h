@@ -9,16 +9,35 @@
 #ifndef Render_GLES_h
 #define Render_GLES_h
 
+#include <GL/glew.h>  
+#include <GLFW/glfw3.h>
+
 class Render_GLES
 {
 public:
-    Render_GLES& getSingleton();
+    static Render_GLES& getSingleton();
 
     bool Init();
     bool DeInit();
+
+	void DrawTriangles();
 private:
     Render_GLES();
     ~Render_GLES();
+
+private:
+	enum VertexAttribIndex
+	{
+		VERTEX,
+		COLOR,
+		UV,
+		INDICES,
+		MAX,
+	};
+
+	GLuint _vao;
+	GLuint _vbos[MAX];
+	GLuint _programObject;
 
     static Render_GLES* _sInstance;
 };
