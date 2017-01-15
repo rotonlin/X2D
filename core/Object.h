@@ -9,11 +9,17 @@
 #ifndef Object_h
 #define Object_h
 
+#include "core/Macros.h"
+
+X2D_START
+
 class Object
 {
 public:
     Object();
     virtual ~Object();
 };
+
+X2D_END
 
 #endif /* Object_h */

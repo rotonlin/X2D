@@ -13,13 +13,16 @@
 		4B03DDAF1E2A45B30033489D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B03DDAE1E2A45B30033489D /* Assets.xcassets */; };
 		4B03DDB21E2A45B30033489D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B03DDB01E2A45B30033489D /* LaunchScreen.storyboard */; };
 		4B03DDBA1E2A470C0033489D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDB91E2A470C0033489D /* CoreGraphics.framework */; };
-		4B03DDBC1E2A47160033489D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDBB1E2A47160033489D /* UIKit.framework */; };
 		4B03DDBE1E2A47260033489D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDBD1E2A47260033489D /* Foundation.framework */; };
 		4B03DDC11E2A476F0033489D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDC01E2A476F0033489D /* QuartzCore.framework */; };
 		4B03DDC31E2A47740033489D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDC21E2A47740033489D /* OpenGLES.framework */; };
-		4B03DDC61E2A47FE0033489D /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDC51E2A47FE0033489D /* GLView.mm */; };
 		4B03DDCF1E2A5E1F0033489D /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDCE1E2A5E1F0033489D /* libstdc++.tbd */; };
 		4B03DDD61E2A73F10033489D /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDD31E2A73F10033489D /* Object.cpp */; };
+		4B03DDDA1E2A81E40033489D /* Render_GLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDD81E2A81E40033489D /* Render_GLES.cpp */; };
+		4B03DDDC1E2A867D0033489D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B03DDDB1E2A867D0033489D /* Main.storyboard */; };
+		4B03DDDE1E2A87C60033489D /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDDD1E2A87C60033489D /* GLKit.framework */; };
+		4B03DDDF1E2A89630033489D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDBB1E2A47160033489D /* UIKit.framework */; };
+		4B03DDE21E2B07C90033489D /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDE01E2B07C90033489D /* Math.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,13 +40,17 @@
 		4B03DDBD1E2A47260033489D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4B03DDC01E2A476F0033489D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4B03DDC21E2A47740033489D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		4B03DDC41E2A47FE0033489D /* GLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
-		4B03DDC51E2A47FE0033489D /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLView.mm; sourceTree = "<group>"; };
 		4B03DDCE1E2A5E1F0033489D /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		4B03DDD21E2A73F10033489D /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Macros.h; path = core/Macros.h; sourceTree = "<group>"; };
 		4B03DDD31E2A73F10033489D /* Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Object.cpp; path = core/Object.cpp; sourceTree = "<group>"; };
 		4B03DDD41E2A73F10033489D /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Object.h; path = core/Object.h; sourceTree = "<group>"; };
 		4B03DDD51E2A73F10033489D /* Ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ref.h; path = core/Ref.h; sourceTree = "<group>"; };
+		4B03DDD81E2A81E40033489D /* Render_GLES.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render_GLES.cpp; path = render/Render_GLES.cpp; sourceTree = "<group>"; };
+		4B03DDD91E2A81E40033489D /* Render_GLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render_GLES.h; path = render/Render_GLES.h; sourceTree = "<group>"; };
+		4B03DDDB1E2A867D0033489D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		4B03DDDD1E2A87C60033489D /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		4B03DDE01E2B07C90033489D /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Math.cpp; path = core/Math.cpp; sourceTree = "<group>"; };
+		4B03DDE11E2B07C90033489D /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Math.h; path = core/Math.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,11 +58,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B03DDDF1E2A89630033489D /* UIKit.framework in Frameworks */,
+				4B03DDDE1E2A87C60033489D /* GLKit.framework in Frameworks */,
 				4B03DDCF1E2A5E1F0033489D /* libstdc++.tbd in Frameworks */,
 				4B03DDC31E2A47740033489D /* OpenGLES.framework in Frameworks */,
 				4B03DDC11E2A476F0033489D /* QuartzCore.framework in Frameworks */,
 				4B03DDBE1E2A47260033489D /* Foundation.framework in Frameworks */,
-				4B03DDBC1E2A47160033489D /* UIKit.framework in Frameworks */,
 				4B03DDBA1E2A470C0033489D /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,6 +74,7 @@
 		4B03DD961E2A45B30033489D = {
 			isa = PBXGroup;
 			children = (
+				4B03DDD71E2A7D580033489D /* render */,
 				4B03DDC71E2A53AD0033489D /* core */,
 				4B03DDBF1E2A47310033489D /* libs */,
 				4B03DDA11E2A45B30033489D /* X2D_xcode */,
@@ -84,8 +93,6 @@
 		4B03DDA11E2A45B30033489D /* X2D_xcode */ = {
 			isa = PBXGroup;
 			children = (
-				4B03DDC41E2A47FE0033489D /* GLView.h */,
-				4B03DDC51E2A47FE0033489D /* GLView.mm */,
 				4B03DDA51E2A45B30033489D /* AppDelegate.h */,
 				4B03DDA61E2A45B30033489D /* AppDelegate.mm */,
 				4B03DDA81E2A45B30033489D /* ViewController.h */,
@@ -94,6 +101,7 @@
 				4B03DDB01E2A45B30033489D /* LaunchScreen.storyboard */,
 				4B03DDB31E2A45B30033489D /* Info.plist */,
 				4B03DDA21E2A45B30033489D /* Supporting Files */,
+				4B03DDDB1E2A867D0033489D /* Main.storyboard */,
 			);
 			path = X2D_xcode;
 			sourceTree = "<group>";
@@ -109,6 +117,7 @@
 		4B03DDBF1E2A47310033489D /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				4B03DDDD1E2A87C60033489D /* GLKit.framework */,
 				4B03DDCE1E2A5E1F0033489D /* libstdc++.tbd */,
 				4B03DDC21E2A47740033489D /* OpenGLES.framework */,
 				4B03DDC01E2A476F0033489D /* QuartzCore.framework */,
@@ -126,8 +135,19 @@
 				4B03DDD31E2A73F10033489D /* Object.cpp */,
 				4B03DDD41E2A73F10033489D /* Object.h */,
 				4B03DDD51E2A73F10033489D /* Ref.h */,
+				4B03DDE01E2B07C90033489D /* Math.cpp */,
+				4B03DDE11E2B07C90033489D /* Math.h */,
 			);
 			name = core;
+			sourceTree = "<group>";
+		};
+		4B03DDD71E2A7D580033489D /* render */ = {
+			isa = PBXGroup;
+			children = (
+				4B03DDD81E2A81E40033489D /* Render_GLES.cpp */,
+				4B03DDD91E2A81E40033489D /* Render_GLES.h */,
+			);
+			name = render;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +207,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B03DDDC1E2A867D0033489D /* Main.storyboard in Resources */,
 				4B03DDB21E2A45B30033489D /* LaunchScreen.storyboard in Resources */,
 				4B03DDAF1E2A45B30033489D /* Assets.xcassets in Resources */,
 			);
@@ -200,8 +221,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B03DDAA1E2A45B30033489D /* ViewController.mm in Sources */,
-				4B03DDC61E2A47FE0033489D /* GLView.mm in Sources */,
+				4B03DDDA1E2A81E40033489D /* Render_GLES.cpp in Sources */,
 				4B03DDA71E2A45B30033489D /* AppDelegate.mm in Sources */,
+				4B03DDE21E2B07C90033489D /* Math.cpp in Sources */,
 				4B03DDD61E2A73F10033489D /* Object.cpp in Sources */,
 				4B03DDA41E2A45B30033489D /* main.m in Sources */,
 			);

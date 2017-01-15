@@ -13,9 +13,7 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *_pWindow;
-@property (nonatomic, retain) GLView *_pGlView;
-@property (nonatomic, retain) ViewController *_pViewController;
+@property (strong, nonatomic) UIWindow *window;
 
 @end
 

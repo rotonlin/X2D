@@ -6,10 +6,14 @@
 //  Copyright © 2017年 roton. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : GLKViewController
+{
+    GLuint vertexBufferID;
+}
 
+@property (retain, nonatomic) GLKBaseEffect *baseEffect;
 
 @end
 
