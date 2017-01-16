@@ -18,7 +18,6 @@
 		4B03DDC31E2A47740033489D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDC21E2A47740033489D /* OpenGLES.framework */; };
 		4B03DDCF1E2A5E1F0033489D /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDCE1E2A5E1F0033489D /* libstdc++.tbd */; };
 		4B03DDD61E2A73F10033489D /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDD31E2A73F10033489D /* Object.cpp */; };
-		4B03DDDA1E2A81E40033489D /* Render_GLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDD81E2A81E40033489D /* Render_GLES.cpp */; };
 		4B03DDDC1E2A867D0033489D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B03DDDB1E2A867D0033489D /* Main.storyboard */; };
 		4B03DDDE1E2A87C60033489D /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDDD1E2A87C60033489D /* GLKit.framework */; };
 		4B03DDDF1E2A89630033489D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDBB1E2A47160033489D /* UIKit.framework */; };
@@ -221,7 +220,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B03DDAA1E2A45B30033489D /* ViewController.mm in Sources */,
-				4B03DDDA1E2A81E40033489D /* Render_GLES.cpp in Sources */,
 				4B03DDA71E2A45B30033489D /* AppDelegate.mm in Sources */,
 				4B03DDE21E2B07C90033489D /* Math.cpp in Sources */,
 				4B03DDD61E2A73F10033489D /* Object.cpp in Sources */,

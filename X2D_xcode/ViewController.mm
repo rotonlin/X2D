@@ -37,6 +37,11 @@ static const SceneVertex vertices[] =
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    unsigned int a = Math::NearestPow2(10);
+    unsigned int b = sizeof(Math::Vector2);
+    a = b;
+
     // Verify the type of view created automatically by the
     // Interface Builder storyboard
     GLKView *view = (GLKView *)self.view;
@@ -78,9 +83,6 @@ static const SceneVertex vertices[] =
                  sizeof(vertices), // Number of bytes to copy
                  vertices,         // Address of bytes to copy
                  GL_STATIC_DRAW);  // Hint: cache in GPU memory
-
-    x2d::Vector2 ve;
-    
 }
 
 -(void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
