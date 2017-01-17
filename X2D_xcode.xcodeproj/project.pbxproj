@@ -21,7 +21,8 @@
 		4B03DDDC1E2A867D0033489D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B03DDDB1E2A867D0033489D /* Main.storyboard */; };
 		4B03DDDE1E2A87C60033489D /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDDD1E2A87C60033489D /* GLKit.framework */; };
 		4B03DDDF1E2A89630033489D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B03DDBB1E2A47160033489D /* UIKit.framework */; };
-		4B03DDE21E2B07C90033489D /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDE01E2B07C90033489D /* Math.cpp */; };
+		4B03DDE61E2E69A50033489D /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDE41E2E69A50033489D /* Math.cpp */; };
+		4B03DDEA1E2E6AC30033489D /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B03DDE81E2E6AC30033489D /* Matrix.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,8 +49,11 @@
 		4B03DDD91E2A81E40033489D /* Render_GLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render_GLES.h; path = render/Render_GLES.h; sourceTree = "<group>"; };
 		4B03DDDB1E2A867D0033489D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4B03DDDD1E2A87C60033489D /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		4B03DDE01E2B07C90033489D /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Math.cpp; path = core/Math.cpp; sourceTree = "<group>"; };
-		4B03DDE11E2B07C90033489D /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Math.h; path = core/Math.h; sourceTree = "<group>"; };
+		4B03DDE41E2E69A50033489D /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Math.cpp; path = core/math/Math.cpp; sourceTree = "<group>"; };
+		4B03DDE51E2E69A50033489D /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Math.h; path = core/math/Math.h; sourceTree = "<group>"; };
+		4B03DDE71E2E69FA0033489D /* Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Vector.h; path = core/math/Vector.h; sourceTree = "<group>"; };
+		4B03DDE81E2E6AC30033489D /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix.cpp; path = core/math/Matrix.cpp; sourceTree = "<group>"; };
+		4B03DDE91E2E6AC30033489D /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix.h; path = core/math/Matrix.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,12 +134,11 @@
 		4B03DDC71E2A53AD0033489D /* core */ = {
 			isa = PBXGroup;
 			children = (
+				4B03DDE31E2E69720033489D /* math */,
 				4B03DDD21E2A73F10033489D /* Macros.h */,
 				4B03DDD31E2A73F10033489D /* Object.cpp */,
 				4B03DDD41E2A73F10033489D /* Object.h */,
 				4B03DDD51E2A73F10033489D /* Ref.h */,
-				4B03DDE01E2B07C90033489D /* Math.cpp */,
-				4B03DDE11E2B07C90033489D /* Math.h */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -147,6 +150,18 @@
 				4B03DDD91E2A81E40033489D /* Render_GLES.h */,
 			);
 			name = render;
+			sourceTree = "<group>";
+		};
+		4B03DDE31E2E69720033489D /* math */ = {
+			isa = PBXGroup;
+			children = (
+				4B03DDE41E2E69A50033489D /* Math.cpp */,
+				4B03DDE51E2E69A50033489D /* Math.h */,
+				4B03DDE71E2E69FA0033489D /* Vector.h */,
+				4B03DDE81E2E6AC30033489D /* Matrix.cpp */,
+				4B03DDE91E2E6AC30033489D /* Matrix.h */,
+			);
+			name = math;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,11 +234,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B03DDEA1E2E6AC30033489D /* Matrix.cpp in Sources */,
 				4B03DDAA1E2A45B30033489D /* ViewController.mm in Sources */,
 				4B03DDA71E2A45B30033489D /* AppDelegate.mm in Sources */,
-				4B03DDE21E2B07C90033489D /* Math.cpp in Sources */,
 				4B03DDD61E2A73F10033489D /* Object.cpp in Sources */,
 				4B03DDA41E2A45B30033489D /* main.m in Sources */,
+				4B03DDE61E2E69A50033489D /* Math.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

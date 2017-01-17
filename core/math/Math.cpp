@@ -8,7 +8,6 @@
 
 #include "Math.h"
 
-//vectors impl
 
 
 

@@ -9,4 +9,8 @@
 #ifndef Macros_h
 #define Macros_h
 
+//include std headers
+#include <math.h>
+#include <string.h>
+
 #endif /* Macros_h */

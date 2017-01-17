@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "core/Ref.h"
 #import "core/Object.h"
-#import "core/Math.h"
+#import "core/math/Math.h"
 
 @interface ViewController ()
 
@@ -38,9 +38,23 @@ static const SceneVertex vertices[] =
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    unsigned int a = Math::NearestPow2(10);
-    unsigned int b = sizeof(Math::Vector2);
-    a = b;
+    Matrix3 mat3;
+    Math::LoadIdentity3(mat3);
+
+    Vector3 v1 = mat3.GetMatrixColumn(0);
+    Vector3 v2 = mat3.GetMatrixColumn(1);
+    Vector3 v3 = mat3.GetMatrixColumn(2);
+
+    v1 *= 2;
+    v2 = v1 + v3;
+
+    mat3.SetMatrixColumn(v1, 0);
+    mat3.SetMatrixColumn(v2, 1);
+    mat3.SetMatrixColumn(v3, 2);
+
+    Matrix3 mat3x = mat3;
+    mat3x.m[4] = 100;
+    mat3x = mat3 * mat3x;
 
     // Verify the type of view created automatically by the
     // Interface Builder storyboard
