@@ -10,7 +10,6 @@
 #define Render_GLES_h
 
 #include <GL/glew.h>  
-#include <GLFW/glfw3.h>
 
 class Render_GLES
 {
@@ -21,9 +20,14 @@ public:
     bool DeInit();
 
 	void DrawTriangles();
+	void DrawSquare();
+
+	//void DrawImGUILists(ImDrawData* draw_data);
 private:
     Render_GLES();
     ~Render_GLES();
+
+	void InitImGUI();
 
 private:
 	enum VertexAttribIndex

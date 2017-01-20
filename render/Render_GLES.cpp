@@ -7,10 +7,13 @@
 //
 
 #include "Render_GLES.h"
+#include "render/MatrixStack.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
+
+//--------------------------------------------------------------------
 
 Render_GLES* Render_GLES::_sInstance = new Render_GLES();
 
@@ -142,9 +145,15 @@ GLuint esLoadProgram(const char *vertShaderSrc, const char *fragShaderSrc)
 	return programObject;
 }
 
+void Render_GLES::InitImGUI()
+{
+
+}
+
 bool Render_GLES::Init()
 {
 	// Initialize GLEW to setup the OpenGL Function pointers  
+	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
 		return false;
@@ -276,4 +285,9 @@ void Render_GLES::DrawTriangles()
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
 
 	glBindVertexArray(0);
+}
+
+void Render_GLES::DrawSquare()
+{
+
 }

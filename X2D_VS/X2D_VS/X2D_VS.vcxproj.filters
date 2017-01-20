@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{5e52d661-b083-455f-a14b-de63bc8f416e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\mathfu">
+      <UniqueIdentifier>{4444fc27-8e7c-4e51-bd4f-cbd908d47595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\vectorial">
+      <UniqueIdentifier>{c363684d-8ad9-4388-8db9-b7b5a89b1966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\mathfu\internal">
+      <UniqueIdentifier>{05de7a82-c8b1-4f64-a62f-0c24b32c6f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\node">
+      <UniqueIdentifier>{bed3c2e0-b85a-473a-90bd-1c2667775931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{7f35971f-f02d-4309-a006-384fdc061acd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\node\Node.cpp">
+      <Filter>core\node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\node\Sprite.cpp">
+      <Filter>core\node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\render\Render_GLES.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\Object.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\core\mathfu\constants.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\glsl_mappings.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\matrix.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\matrix_4x4.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\quaternion.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\utilities.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\vector.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\vector_2.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\vector_3.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\vector_4.h">
+      <Filter>core\mathfu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\internal\matrix_4x4_simd.h">
+      <Filter>core\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\internal\vector_2_simd.h">
+      <Filter>core\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\internal\vector_3_simd.h">
+      <Filter>core\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\mathfu\internal\vector_4_simd.h">
+      <Filter>core\mathfu\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\config.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\mat4f.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd2f.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd2f_common.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd2f_neon.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4f.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4f_common.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4f_gnu.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4f_neon.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4f_scalar.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4f_sse.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4x4f.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_gnu.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_neon.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_scalar.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_sse.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\vec_convert.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\vec2f.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\vec3f.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\vec4f.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\vectorial\vectorial.h">
+      <Filter>core\vectorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\node\Node.h">
+      <Filter>core\node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\node\Sprite.h">
+      <Filter>core\node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\render\MatrixStack.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\render\Render_GLES.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Macros.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Math.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Object.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Ref.h">
+      <Filter>core</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

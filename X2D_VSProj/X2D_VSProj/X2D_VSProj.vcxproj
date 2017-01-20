@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>..\..\third_partys\glfw\lib\win32\debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\..\..\X2D;..\..\third_partys\glfw\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath);..\..\..\X2D;..\..\third_partys\glfw\include;..\..\..\X2D\core\;..\..\..\X2D\ui\imgui</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -88,16 +88,18 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>PreCompileHeader.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;openGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);glfw3.lib;glew32s.lib;openGL32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,7 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\core\Math.cpp" />
+    <ClCompile Include="..\..\core\node\Node.cpp" />
+    <ClCompile Include="..\..\core\node\Sprite.cpp" />
     <ClCompile Include="..\..\core\Object.cpp" />
     <ClCompile Include="..\..\render\Render_GLES.cpp" />
     <ClCompile Include="main.cpp" />
@@ -154,8 +157,46 @@
   <ItemGroup>
     <ClInclude Include="..\..\core\Macros.h" />
     <ClInclude Include="..\..\core\Math.h" />
+    <ClInclude Include="..\..\core\mathfu\constants.h" />
+    <ClInclude Include="..\..\core\mathfu\glsl_mappings.h" />
+    <ClInclude Include="..\..\core\mathfu\internal\matrix_4x4_simd.h" />
+    <ClInclude Include="..\..\core\mathfu\internal\vector_2_simd.h" />
+    <ClInclude Include="..\..\core\mathfu\internal\vector_3_simd.h" />
+    <ClInclude Include="..\..\core\mathfu\internal\vector_4_simd.h" />
+    <ClInclude Include="..\..\core\mathfu\matrix.h" />
+    <ClInclude Include="..\..\core\mathfu\matrix_4x4.h" />
+    <ClInclude Include="..\..\core\mathfu\quaternion.h" />
+    <ClInclude Include="..\..\core\mathfu\utilities.h" />
+    <ClInclude Include="..\..\core\mathfu\vector.h" />
+    <ClInclude Include="..\..\core\mathfu\vector_2.h" />
+    <ClInclude Include="..\..\core\mathfu\vector_3.h" />
+    <ClInclude Include="..\..\core\mathfu\vector_4.h" />
+    <ClInclude Include="..\..\core\node\Node.h" />
+    <ClInclude Include="..\..\core\node\Sprite.h" />
     <ClInclude Include="..\..\core\Object.h" />
     <ClInclude Include="..\..\core\Ref.h" />
+    <ClInclude Include="..\..\core\vectorial\config.h" />
+    <ClInclude Include="..\..\core\vectorial\mat4f.h" />
+    <ClInclude Include="..\..\core\vectorial\simd2f.h" />
+    <ClInclude Include="..\..\core\vectorial\simd2f_common.h" />
+    <ClInclude Include="..\..\core\vectorial\simd2f_neon.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4f.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4f_common.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4f_gnu.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4f_neon.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4f_scalar.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4f_sse.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4x4f.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_gnu.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_neon.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_scalar.h" />
+    <ClInclude Include="..\..\core\vectorial\simd4x4f_sse.h" />
+    <ClInclude Include="..\..\core\vectorial\vec2f.h" />
+    <ClInclude Include="..\..\core\vectorial\vec3f.h" />
+    <ClInclude Include="..\..\core\vectorial\vec4f.h" />
+    <ClInclude Include="..\..\core\vectorial\vectorial.h" />
+    <ClInclude Include="..\..\core\vectorial\vec_convert.h" />
+    <ClInclude Include="..\..\render\MatrixStack.h" />
     <ClInclude Include="..\..\render\Render_GLES.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
