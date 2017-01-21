@@ -2,7 +2,7 @@
 //  RenderCommond.h
 //  X2D
 //
-//  Created by roton on 17/1/14.
+//  Created by roton on 17/1/21.
 //  Copyright © 2017年 roton. All rights reserved.
 //
 
@@ -36,6 +36,9 @@ struct RenderCommond
 	std::vector<uint16_t> _indices;
 	Rectf _clipRec;
 	int _iElementCount;
+
+	//transform
+	mathfu::mat4 _mv;
 };
 
 #endif /* RenderCommond_h */

@@ -16,6 +16,9 @@
 #include "core/Ref.h"
 #include "render/RenderCommond.h"
 
+typedef void *SDL_GLContext;
+struct SDL_Window;
+
 class Render_GLES
 {
 public:
@@ -24,12 +27,18 @@ public:
     bool Init();
     bool DeInit();
 
+	void BegainDraw();
+	void EndDraw();
+	void UpdateScene(float fDelta);
+
 	void DrawScene();
 	void DrawTriangles();
 	void DrawSquare();
 
 	void AddCommond(const RenderCommond& rCommond);
 	//void DrawImGUILists(ImDrawData* draw_data);
+
+	_FORCE_INLINE_ const Sizef& GetWinSize() { return _winSize; }
 private:
     Render_GLES();
     ~Render_GLES();
@@ -54,6 +63,12 @@ private:
 	Ref<Scene> _pRootScene;
 
 	std::vector<RenderCommond> _renderCommonds;
+
+	Sizef _winSize;
+	mathfu::vec2 _displayFramebufferScale;
+
+	SDL_Window* pWindow;
+	SDL_GLContext pContext;
 
     static Render_GLES* _sInstance;
 };

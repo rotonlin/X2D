@@ -7,9 +7,11 @@
 //
 
 #include "Render_GLES.h"
+#include "SDL.h"
 #include "render/MatrixStack.h"
 
 //--------------------------------------------------------------------
+static MatrixStack gMatrixStack;
 
 Render_GLES* Render_GLES::_sInstance = new Render_GLES();
 
@@ -148,6 +150,29 @@ void Render_GLES::InitImGUI()
 
 bool Render_GLES::Init()
 {
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		return 0;
+	}
+
+	pWindow = SDL_CreateWindow("test",
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		800,
+		600,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
+	pContext = SDL_GL_CreateContext(pWindow);
+
 	// Initialize GLEW to setup the OpenGL Function pointers  
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -158,13 +183,17 @@ bool Render_GLES::Init()
 	_pRootScene = memnew(Scene);
 
 	{
-		for (int i = 0; i < 3; ++i)
-		{
-			Ref<Sprite> pSprite = memnew(Sprite);
-			pSprite->SetPosition(mathfu::vec2(100.0f * i, 100.0f * i));
-			pSprite->SetSize(Sizef(80.0f, 80.0f));
-			_pRootScene->AddChild(pSprite);
-		}
+		Ref<Sprite> pSprite = memnew(Sprite);
+		pSprite->SetPosition(mathfu::vec2(100, 100));
+		pSprite->SetSize(Sizef(200.0f, 300.0f));
+		pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
+		_pRootScene->AddChild(pSprite);
+
+		Ref<Sprite> pSprite1 = memnew(Sprite);
+		pSprite1->SetPosition(mathfu::vec2(0, 0));
+		pSprite1->SetSize(Sizef(100.0f, 100.0f));
+		pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
+		pSprite->AddChild(pSprite1);
 	}
 
 
@@ -235,6 +264,9 @@ bool Render_GLES::Init()
 
 bool Render_GLES::DeInit()
 {
+	SDL_free(pContext);
+	SDL_free(pWindow);
+
     return true;
 }
 
@@ -332,9 +364,26 @@ void Render_GLES::DrawSquare()
 
 void Render_GLES::DrawScene()
 {
+	int fb_width = (int)(_winSize._width * _displayFramebufferScale.x());
+	int fb_height = (int)(_winSize._height * _displayFramebufferScale.y());
+	if (fb_width == 0 || fb_height == 0)
+	{
+		return;
+	}
+	//draw_data->ScaleClipRects(io.DisplayFramebufferScale);
+	glClearColor(0.5, 0.5, 0.5, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glViewport(0, 0, fb_width, fb_height);
+	//clear color
+
 	//generate commond
 	_renderCommonds.clear();
+
+	gMatrixStack.LoadIdentity();
+
 	DrawNode(_pRootScene);
+
+	gMatrixStack.PopMatrix();
 
 	glEnable(GL_BLEND);
 	glBlendEquation(GL_FUNC_ADD);
@@ -349,7 +398,7 @@ void Render_GLES::DrawScene()
 	glUseProgram(_programObject);
 
 	//set uniforms 
-	mathfu::mat4 OrthoMat = mathfu::mat4::Ortho(0, 800, 600, 0, -1, 1);
+	mathfu::mat4 OrthoMat = mathfu::mat4::Ortho(0, fb_width, fb_height, 0, -1, 1);
 	glUniformMatrix4fv(_projectionLocation, 1, GL_FALSE, (const GLfloat*)&OrthoMat);
 
 	glBindVertexArray(_vao);
@@ -366,24 +415,34 @@ void Render_GLES::DrawScene()
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, commond._indices.size() * sizeof(uint16_t), &commond._indices[0], GL_DYNAMIC_DRAW);
 
 		//glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-		//glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
+		glScissor(
+			commond._clipRec._origin.x(), 
+			commond._clipRec._origin.y(),
+			commond._clipRec._size._width,
+			commond._clipRec._size._height);
+
 		glDrawElements(GL_TRIANGLES, commond._iElementCount, GL_UNSIGNED_SHORT, 0);
 	}
 
 	//clean
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glDisable(GL_SCISSOR_TEST);
 	glBindVertexArray(0);
 }
 
 void Render_GLES::DrawNode(Ref<Node> pNode)
 {
+	pNode->TransForm(gMatrixStack.GetMatrix());
 	pNode->Draw();
 
 	for (std::list<Ref<Node>>::iterator iter = pNode->_childs.begin(); iter != pNode->_childs.end(); ++iter)
 	{
 		//only sort when a new child add to the node , make zorder effect
 		pNode->SortChilds();
+
+		gMatrixStack.LoadIdentity();
+
 		DrawNode(*iter);
 	}
 }
@@ -391,4 +450,29 @@ void Render_GLES::DrawNode(Ref<Node> pNode)
 void Render_GLES::AddCommond(const RenderCommond& rCommond)
 {
 	_renderCommonds.push_back(rCommond);
+}
+
+void Render_GLES::BegainDraw()
+{
+	int w, h;
+	int display_w, display_h;
+	SDL_GetWindowSize(pWindow, &w, &h);
+	SDL_GL_GetDrawableSize(pWindow, &display_w, &display_h);
+	_winSize._width = w;
+	_winSize._height = h;
+	_displayFramebufferScale = mathfu::vec2(_winSize._width > 0 ? ((float)display_w / w) : 0,
+		h > 0 ? ((float)display_h / h) : 0);
+}
+
+void Render_GLES::EndDraw()
+{
+	SDL_GL_SwapWindow(pWindow);
+}
+
+void Render_GLES::UpdateScene(float fDelta)
+{
+	if (_pRootScene != nullptr)
+	{
+		_pRootScene->Update(fDelta);
+	}
 }

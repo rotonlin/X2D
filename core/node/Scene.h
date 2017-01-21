@@ -16,6 +16,8 @@ class Scene : public Node
 public:
 	Scene();
     virtual ~Scene();
+
+	virtual void Update(float fDelta);
 };
 
 #endif /* Scene_h */

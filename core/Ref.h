@@ -1,6 +1,6 @@
 //
 //  Ref.h
-//  X2D_xcode
+//  X2D
 //
 //  Created by roton on 17/1/14.
 //  Copyright © 2017年 roton. All rights reserved.
