@@ -10,6 +10,10 @@
 #define Render_GLES_h
 
 #include <GL/glew.h>  
+#include <vector>
+#include "core/node/Scene.h"
+#include "core/node/Sprite.h"
+#include "core/Ref.h"
 
 class Render_GLES
 {
@@ -42,6 +46,8 @@ private:
 	GLuint _vao;
 	GLuint _vbos[MAX];
 	GLuint _programObject;
+
+	Ref<Scene> _pRootScene;
 
     static Render_GLES* _sInstance;
 };

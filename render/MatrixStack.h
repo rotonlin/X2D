@@ -13,28 +13,28 @@ public:
 	}
 	~MatrixStack(){}
 
-	inline void LoadIdentity()
+	_FORCE_INLINE_ void LoadIdentity()
 	{
 		_stack.push(mathfu::mat4::Identity());
 	}
 
-	inline void LoadMatrix(const mathfu::mat4& rMatrix)
+	_FORCE_INLINE_ void LoadMatrix(const mathfu::mat4& rMatrix)
 	{
 		_stack.top() = rMatrix;
 	}
 
-	inline void MultMatrix(const mathfu::mat4& rMatrix)
+	_FORCE_INLINE_ void MultMatrix(const mathfu::mat4& rMatrix)
 	{
 		_stack.top() *= rMatrix;
 	}
 
-	inline void PushMatrix()
+	_FORCE_INLINE_ void PushMatrix()
 	{
 		const mathfu::mat4& rMat = _stack.top();
 		_stack.push(rMat);
 	}
 
-	inline void PopMatrix() 
+	_FORCE_INLINE_ void PopMatrix() 
 	{
 		if (!_stack.empty())
 		{
@@ -42,35 +42,35 @@ public:
 		}
 	}
 
-	inline void Scale(float x, float y, float z)
+	_FORCE_INLINE_ void Scale(float x, float y, float z)
 	{
 		_stack.top() *= mathfu::mat4::FromScaleVector(mathfu::vec3(x, y, z));
 	}
 
 
-	inline void Translate(float x, float y, float z)
+	_FORCE_INLINE_ void Translate(float x, float y, float z)
 	{
 		_stack.top() *= mathfu::mat4::FromTranslationVector(mathfu::vec3(x, y, z));
 	}
 
-	inline void Rotate(float angle, float x, float y, float z)
+	_FORCE_INLINE_ void Rotate(float angle, float x, float y, float z)
 	{
 		mathfu::Quaternion<float> quaternion = mathfu::Quaternion<float>::FromAngleAxis(angle, mathfu::vec3(x, y, z));
 		_stack.top() *= quaternion.ToMatrix4();
 	}
 
-	inline void PushMatrix(const mathfu::mat4& rMatrix)
+	_FORCE_INLINE_ void PushMatrix(const mathfu::mat4& rMatrix)
 	{
 		_stack.push(rMatrix);
 	}
 
 	// Two different ways to get the matrix
-	inline const mathfu::mat4& GetMatrix()
+	_FORCE_INLINE_ const mathfu::mat4& GetMatrix()
 	{ 
 		return _stack.top(); 
 	}
 
-	inline void GetMatrix(mathfu::mat4& rMatrix)
+	_FORCE_INLINE_ void GetMatrix(mathfu::mat4& rMatrix)
 	{ 
 		if (!_stack.empty())
 		{

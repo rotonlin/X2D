@@ -9,10 +9,6 @@
 #include "Render_GLES.h"
 #include "render/MatrixStack.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <memory.h>
-
 //--------------------------------------------------------------------
 
 Render_GLES* Render_GLES::_sInstance = new Render_GLES();
@@ -159,7 +155,23 @@ bool Render_GLES::Init()
 		return false;
 	}
 
-	const char vShaderStr[] =
+	_pRootScene = memnew(Scene());
+	int cnt = _pRootScene->ReferenceCount();
+	{
+		Ref<Scene> scene = _pRootScene;
+		Ref<Scene> pScene2 = scene;
+
+		pScene2 = nullptr;
+
+		for (int i = 0; i < 3; ++i)
+		{
+			Ref<Sprite> pSprite(new Sprite());
+			_pRootScene->AddChild(pSprite);
+		}
+	}
+
+
+	/*const char vShaderStr[] =
 		"#version 300 es                            \n"
 		"layout(location = 0) in vec4 a_position;   \n"
 		"layout(location = 1) in vec4 a_color;      \n"
@@ -190,7 +202,7 @@ bool Render_GLES::Init()
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
 	memset(_vbos, 0, sizeof(_vbos));
-	_vao = 0;
+	_vao = 0;*/
 
     return true;
 }

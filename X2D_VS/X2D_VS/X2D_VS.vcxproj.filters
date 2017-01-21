@@ -40,6 +40,9 @@
     <ClCompile Include="..\..\core\Object.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\core\node\Scene.cpp">
+      <Filter>core\node</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\core\mathfu\constants.h">
@@ -170,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="..\..\core\Ref.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\node\Scene.h">
+      <Filter>core\node</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

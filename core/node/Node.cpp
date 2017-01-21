@@ -24,3 +24,11 @@ void Node::Draw()
 {
 
 }
+
+void Node::AddChild(Ref<Node> node)
+{
+	node->_iZOrder = _iSubZOrder++;
+	_childs.push_back(node);
+
+	printf("%d\n", node.RefCount());
+}

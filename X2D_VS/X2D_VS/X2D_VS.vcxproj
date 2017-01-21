@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\core\node\Node.cpp" />
+    <ClCompile Include="..\..\core\node\Scene.cpp" />
     <ClCompile Include="..\..\core\node\Sprite.cpp" />
     <ClCompile Include="..\..\core\Object.cpp" />
     <ClCompile Include="..\..\render\Render_GLES.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="..\..\core\mathfu\vector_3.h" />
     <ClInclude Include="..\..\core\mathfu\vector_4.h" />
     <ClInclude Include="..\..\core\node\Node.h" />
+    <ClInclude Include="..\..\core\node\Scene.h" />
     <ClInclude Include="..\..\core\node\Sprite.h" />
     <ClInclude Include="..\..\core\Object.h" />
     <ClInclude Include="..\..\core\Ref.h" />
