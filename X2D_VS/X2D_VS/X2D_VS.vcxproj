@@ -204,6 +204,7 @@
     <ClInclude Include="..\..\core\vectorial\vectorial.h" />
     <ClInclude Include="..\..\core\vectorial\vec_convert.h" />
     <ClInclude Include="..\..\render\MatrixStack.h" />
+    <ClInclude Include="..\..\render\RenderCommond.h" />
     <ClInclude Include="..\..\render\Render_GLES.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

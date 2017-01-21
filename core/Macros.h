@@ -16,9 +16,13 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include <list>
 
 #include <cstdlib>
 #include <cstdio>
+#include <cstddef>
+
+#include "mathfu/glsl_mappings.h"
 
 #ifndef _ALWAYS_INLINE_
 #if defined(__GNUC__) && (__GNUC__ >= 4 )

@@ -155,38 +155,42 @@ bool Render_GLES::Init()
 		return false;
 	}
 
-	_pRootScene = memnew(Scene());
-	int cnt = _pRootScene->ReferenceCount();
+	_pRootScene = memnew(Scene);
+
 	{
-		Ref<Scene> scene = _pRootScene;
-		Ref<Scene> pScene2 = scene;
-
-		pScene2 = nullptr;
-
 		for (int i = 0; i < 3; ++i)
 		{
-			Ref<Sprite> pSprite(new Sprite());
+			Ref<Sprite> pSprite = memnew(Sprite);
+			pSprite->SetPosition(mathfu::vec2(100.0f * i, 100.0f * i));
+			pSprite->SetSize(Sizef(80.0f, 80.0f));
 			_pRootScene->AddChild(pSprite);
 		}
 	}
 
 
-	/*const char vShaderStr[] =
+	const char vShaderStr[] =
 		"#version 300 es                            \n"
-		"layout(location = 0) in vec4 a_position;   \n"
+		"precision mediump float;					\n"
+		"layout(location = 0) in vec2 a_position;   \n"
 		"layout(location = 1) in vec4 a_color;      \n"
+		"layout(location = 2) in vec2 uv;			\n"
+		"uniform mat4 mvp;							\n"
 		"out vec4 v_color;                          \n"
+		"out vec2 v_uv;								\n"
 		"void main()                                \n"
 		"{                                          \n"
 		"    v_color = a_color;                     \n"
-		"    gl_Position = a_position;              \n"
+		"    v_uv = uv;										\n"
+		"    gl_Position = mvp * vec4(a_position, 0, 1);	\n"
 		"}";
 
 
 	const char fShaderStr[] =
 		"#version 300 es            \n"
-		"precision mediump float;   \n"
+		"precision mediump float;	\n"
+		"uniform sampler2D Texture;	\n"
 		"in vec4 v_color;           \n"
+		"in vec4 v_uv;				\n"
 		"out vec4 o_fragColor;      \n"
 		"void main()                \n"
 		"{                          \n"
@@ -199,10 +203,32 @@ bool Render_GLES::Init()
 		return false;
 	}
 
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	_projectionLocation = glGetUniformLocation(_programObject, "mvp");
 
-	memset(_vbos, 0, sizeof(_vbos));
-	_vao = 0;*/
+	glGenBuffers(1, &_vbos[VERTEX]);
+	glGenBuffers(1, &_vbos[INDICES]);
+
+	glGenVertexArrays(1, &_vao);
+	glBindVertexArray(_vao);
+	glBindBuffer(GL_ARRAY_BUFFER, _vbos[VERTEX]);
+
+	glEnableVertexAttribArray(VERTEX);
+	glEnableVertexAttribArray(COLOR);
+	glEnableVertexAttribArray(UV);
+
+	//pointer data offsets
+	glVertexAttribPointer(VERTEX, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+	glVertexAttribPointer(COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	glVertexAttribPointer(UV, 2, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+
+	//texture creation
+
+	// Restore modified GL state
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	_renderCommonds.reserve(200);
 
     return true;
 }
@@ -302,4 +328,67 @@ void Render_GLES::DrawTriangles()
 void Render_GLES::DrawSquare()
 {
 
+}
+
+void Render_GLES::DrawScene()
+{
+	//generate commond
+	_renderCommonds.clear();
+	DrawNode(_pRootScene);
+
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	//scissor test
+	glEnable(GL_SCISSOR_TEST);
+	//active texture
+	//glActiveTexture(GL_TEXTURE0);
+
+	glUseProgram(_programObject);
+
+	//set uniforms 
+	mathfu::mat4 OrthoMat = mathfu::mat4::Ortho(0, 800, 600, 0, -1, 1);
+	glUniformMatrix4fv(_projectionLocation, 1, GL_FALSE, (const GLfloat*)&OrthoMat);
+
+	glBindVertexArray(_vao);
+
+	//render scene
+	for (int i = 0, n = _renderCommonds.size(); i < n; ++i)
+	{
+		const RenderCommond& commond = _renderCommonds[i];
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vbos[VERTEX]);
+		glBufferData(GL_ARRAY_BUFFER, commond._vert.size() * sizeof(Vertex), &commond._vert[0], GL_DYNAMIC_DRAW);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vbos[INDICES]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, commond._indices.size() * sizeof(uint16_t), &commond._indices[0], GL_DYNAMIC_DRAW);
+
+		//glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
+		//glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
+		glDrawElements(GL_TRIANGLES, commond._iElementCount, GL_UNSIGNED_SHORT, 0);
+	}
+
+	//clean
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void Render_GLES::DrawNode(Ref<Node> pNode)
+{
+	pNode->Draw();
+
+	for (std::list<Ref<Node>>::iterator iter = pNode->_childs.begin(); iter != pNode->_childs.end(); ++iter)
+	{
+		//only sort when a new child add to the node , make zorder effect
+		pNode->SortChilds();
+		DrawNode(*iter);
+	}
+}
+
+void Render_GLES::AddCommond(const RenderCommond& rCommond)
+{
+	_renderCommonds.push_back(rCommond);
 }

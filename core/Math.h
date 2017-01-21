@@ -9,34 +9,36 @@
 #ifndef Core_Math_h
 #define Core_Math_h
 
-#include "mathfu/glsl_mappings.h"
+#include "Macros.h"
 
-struct Rect
+struct Vertex
 {
-	Rect(){}
-	Rect(float x, float y, float width, float height)
-		: _x(x)
-		, _y(y)
-		, _width(width)
-		, _height(height)
-	{}
-
-	float _x;
-	float _y;
-	float _width;
-	float _height;
+	float position[2];
+	float color[4];
+	float uv[2];
 };
 
-struct Size
+struct Sizef
 {
-	Size(){}
-	Size(float width, float height)
+	Sizef(){}
+	Sizef(float width, float height)
 		: _width(width)
 		, _height(height)
 	{}
 
 	float _width;
 	float _height;
+};
+
+struct Rectf
+{
+	Rectf() {}
+	Rectf(float x, float y, float width, float height)
+		: _origin(x, y)
+		, _size(width, height)
+	{}
+	mathfu::vec2 _origin;
+	Sizef _size;
 };
 
 #endif /* Math_h */

@@ -177,5 +177,8 @@
     <ClInclude Include="..\..\core\node\Scene.h">
       <Filter>core\node</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\render\RenderCommond.h">
+      <Filter>render</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
