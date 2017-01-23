@@ -65,7 +65,7 @@ public:
 	}
 
 	// Two different ways to get the matrix
-	_FORCE_INLINE_ const mathfu::mat4& GetMatrix()
+	_FORCE_INLINE_  const mathfu::mat4& GetMatrix() const
 	{ 
 		return _stack.top(); 
 	}

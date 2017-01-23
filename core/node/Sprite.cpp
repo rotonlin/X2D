@@ -34,22 +34,21 @@ void Sprite::Draw()
 	memset(&vert, 0, sizeof(vert));
 
 	memcpy(vert.color, &_color, sizeof(_color));
-	memcpy(vert.position, &_position, sizeof(_position));
+
+	vert.position[0] = 0;
+	vert.position[1] = 0;
 	cmd._vert.push_back(vert);
 
-	memcpy(vert.color, &_color, sizeof(_color));
-	mathfu::vec2 pos1(_position.x() + _size._width, _position.y());
-	memcpy(vert.position, &pos1, sizeof(pos1));
+	vert.position[0] = _scaleSize._width;
+	vert.position[1] = 0;
 	cmd._vert.push_back(vert);
 
-	memcpy(vert.color, &_color, sizeof(_color));
-	mathfu::vec2 pos2(_position.x(), _position.y() + _size._height);
-	memcpy(vert.position, &pos2, sizeof(pos2));
+	vert.position[0] = 0;
+	vert.position[1] = _scaleSize._height;
 	cmd._vert.push_back(vert);
 
-	memcpy(vert.color, &_color, sizeof(_color));
-	mathfu::vec2 pos3(_position.x() + _size._width, _position.y() + _size._height);
-	memcpy(vert.position, &pos3, sizeof(pos3));
+	vert.position[0] = _scaleSize._width;
+	vert.position[1] = _scaleSize._height;
 	cmd._vert.push_back(vert);
 
 	//make indices
@@ -59,7 +58,8 @@ void Sprite::Draw()
 	cmd._iElementCount = 6;
 
 	Node* pParent = GetParent();
-	cmd._clipRec._origin = pParent->Position();
+
+	cmd._clipRec._origin = mathfu::vec2(pParent->GetTransform()[12], pParent->GetTransform()[13]);
 	cmd._clipRec._size = pParent->Size();
 	pParent->ConvertToGLSpace(cmd._clipRec._origin);
 

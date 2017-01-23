@@ -14,11 +14,11 @@ Node::Node()
 	, _iSubZOrder(0)
 	, _bSortDirty(false)
 	, _fRotation(0.0f)
-	, _color(0, 0, 0, 1)
+	, _color(0.0f, 0.0f, 0.0f, 1.0f)
 	, _parent(nullptr)
+	, _fScale(1.0f)
 {
 	_transform = mathfu::mat4::Identity();
-	_transformInv = mathfu::mat4::Identity();
 }
 
 Node::~Node()
@@ -73,11 +73,4 @@ void Node::ConvertToGLSpace(mathfu::vec2& rVec2)
 {
 	const Sizef& rWinSize = Render_GLES::getSingleton().GetWinSize();
 	rVec2.y() = rWinSize._height - rVec2.y() - _size._height;
-}
-
-void Node::TransForm(const mathfu::mat4& rTransfrom)
-{
-	 mathfu::mat4::tr
-	_transform *= rTransfrom;
-	_transformInv = _transform.Inverse();
 }

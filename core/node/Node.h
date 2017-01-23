@@ -26,8 +26,6 @@ public:
 
 	void ConvertToGLSpace(mathfu::vec2& rVec2);
 
-	void TransForm(const mathfu::mat4& rTransfrom);
-
 	//setters and getters
 	_FORCE_INLINE_ void SetZOrder(int iZOrder) { _iZOrder = iZOrder; _bSortDirty = true; };
 	_FORCE_INLINE_ int ZOrder() const { return _iZOrder; }
@@ -35,11 +33,12 @@ public:
 	_FORCE_INLINE_ void SetPosition(const mathfu::vec2& rPos) { _position = rPos; }
 	_FORCE_INLINE_ const mathfu::vec2& Position() const { return _position; }
 
-	_FORCE_INLINE_ void SetSize(const Sizef& rSize) { _size = rSize; }
-	_FORCE_INLINE_ const Sizef& Size() const { return _size; }
+	_FORCE_INLINE_ void SetSize(const Sizef& rSize) { _size = rSize; _scaleSize = Sizef(_size._width * _fScale, _size._height * _fScale); }
+	_FORCE_INLINE_ const Sizef& Size() const { return _scaleSize; }
 
 	_FORCE_INLINE_ const std::list<Ref<Node>>& GetChilds() const { return _childs; }
 
+	//radians 
 	_FORCE_INLINE_ void SetRotation(float fRotation) { _fRotation = fRotation; }
 	_FORCE_INLINE_ float Rotation() const { return _fRotation; }
 
@@ -48,6 +47,12 @@ public:
 	_FORCE_INLINE_ const mathfu::vec4& Color() const { return _color; }
 
 	_FORCE_INLINE_ Node* GetParent() const { return _parent; }
+
+	_FORCE_INLINE_ void SetScale(float fScale) { _fScale = fScale; }
+	_FORCE_INLINE_ float Scale() const { return _fScale; }
+
+	void SetTransform(const mathfu::mat4& rTransform) { _transform = rTransform; }
+	_FORCE_INLINE_ const mathfu::mat4& GetTransform() const { return _transform; }
 protected:
 	virtual void Draw();
 	virtual void Update(float fDelta);
@@ -59,11 +64,12 @@ protected:
 	mathfu::vec2 _position;
 	mathfu::vec4 _color;
 	Sizef _size;
+	Sizef _scaleSize;
 	float _fRotation;
+	float _fScale;
 
 	//tranform
 	mathfu::mat4 _transform;
-	mathfu::mat4 _transformInv;
 private:
 	bool _bSortDirty;
 

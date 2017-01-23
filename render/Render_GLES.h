@@ -59,6 +59,7 @@ private:
 	GLuint _vbos[MAX];
 	GLuint _programObject;
 	GLuint _projectionLocation;
+	GLuint _modelViewLocation;
 
 	Ref<Scene> _pRootScene;
 

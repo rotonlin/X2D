@@ -180,37 +180,21 @@ bool Render_GLES::Init()
 		return false;
 	}
 
-	_pRootScene = memnew(Scene);
-
-	{
-		Ref<Sprite> pSprite = memnew(Sprite);
-		pSprite->SetPosition(mathfu::vec2(100, 100));
-		pSprite->SetSize(Sizef(200.0f, 300.0f));
-		pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
-		_pRootScene->AddChild(pSprite);
-
-		Ref<Sprite> pSprite1 = memnew(Sprite);
-		pSprite1->SetPosition(mathfu::vec2(0, 0));
-		pSprite1->SetSize(Sizef(100.0f, 100.0f));
-		pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
-		pSprite->AddChild(pSprite1);
-	}
-
-
 	const char vShaderStr[] =
 		"#version 300 es                            \n"
 		"precision mediump float;					\n"
 		"layout(location = 0) in vec2 a_position;   \n"
 		"layout(location = 1) in vec4 a_color;      \n"
 		"layout(location = 2) in vec2 uv;			\n"
-		"uniform mat4 mvp;							\n"
+		"uniform mat4 perspective;					\n"
+		"uniform mat4 modelview;					\n"
 		"out vec4 v_color;                          \n"
 		"out vec2 v_uv;								\n"
 		"void main()                                \n"
 		"{                                          \n"
 		"    v_color = a_color;                     \n"
 		"    v_uv = uv;										\n"
-		"    gl_Position = mvp * vec4(a_position, 0, 1);	\n"
+		"    gl_Position = perspective * modelview * vec4(a_position, 0, 1);	\n"
 		"}";
 
 
@@ -232,7 +216,8 @@ bool Render_GLES::Init()
 		return false;
 	}
 
-	_projectionLocation = glGetUniformLocation(_programObject, "mvp");
+	_projectionLocation = glGetUniformLocation(_programObject, "perspective");
+	_modelViewLocation = glGetUniformLocation(_programObject, "modelview");
 
 	glGenBuffers(1, &_vbos[VERTEX]);
 	glGenBuffers(1, &_vbos[INDICES]);
@@ -370,20 +355,17 @@ void Render_GLES::DrawScene()
 	{
 		return;
 	}
-	//draw_data->ScaleClipRects(io.DisplayFramebufferScale);
-	glClearColor(0.5, 0.5, 0.5, 1);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glViewport(0, 0, fb_width, fb_height);
-	//clear color
 
 	//generate commond
 	_renderCommonds.clear();
 
 	gMatrixStack.LoadIdentity();
-
 	DrawNode(_pRootScene);
-
 	gMatrixStack.PopMatrix();
+
+	glClearColor(0.5, 0.5, 0.5, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glViewport(0, 0, fb_width, fb_height);
 
 	glEnable(GL_BLEND);
 	glBlendEquation(GL_FUNC_ADD);
@@ -397,16 +379,18 @@ void Render_GLES::DrawScene()
 
 	glUseProgram(_programObject);
 
-	//set uniforms 
-	mathfu::mat4 OrthoMat = mathfu::mat4::Ortho(0, fb_width, fb_height, 0, -1, 1);
-	glUniformMatrix4fv(_projectionLocation, 1, GL_FALSE, (const GLfloat*)&OrthoMat);
-
 	glBindVertexArray(_vao);
 
 	//render scene
 	for (int i = 0, n = _renderCommonds.size(); i < n; ++i)
 	{
 		const RenderCommond& commond = _renderCommonds[i];
+
+		//set uniforms 
+		mathfu::mat4 OrthoMat = mathfu::mat4::Ortho(0, fb_width, fb_height, 0, -1, 1);
+		glUniformMatrix4fv(_projectionLocation, 1, GL_FALSE, (const GLfloat*)&OrthoMat);
+		glUniformMatrix4fv(_modelViewLocation, 1, GL_FALSE, (const GLfloat*)&commond._mv);
+
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vbos[VERTEX]);
 		glBufferData(GL_ARRAY_BUFFER, commond._vert.size() * sizeof(Vertex), &commond._vert[0], GL_DYNAMIC_DRAW);
@@ -427,24 +411,32 @@ void Render_GLES::DrawScene()
 	//clean
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//glDisable(GL_SCISSOR_TEST);
+	glDisable(GL_SCISSOR_TEST);
+	glDisable(GL_BLEND);
 	glBindVertexArray(0);
 }
 
 void Render_GLES::DrawNode(Ref<Node> pNode)
 {
-	pNode->TransForm(gMatrixStack.GetMatrix());
+	gMatrixStack.PushMatrix();
+
+	gMatrixStack.Scale(pNode->Scale(), pNode->Scale(), pNode->Scale());
+	gMatrixStack.Rotate(pNode->Rotation(), 1.0f, 1.0f, 1.0f);
+
+	const mathfu::vec2& rPos = pNode->Position();
+	gMatrixStack.Translate(rPos.x(), rPos.y(), 0);
+
+	pNode->SetTransform(gMatrixStack.GetMatrix());
 	pNode->Draw();
 
 	for (std::list<Ref<Node>>::iterator iter = pNode->_childs.begin(); iter != pNode->_childs.end(); ++iter)
 	{
 		//only sort when a new child add to the node , make zorder effect
 		pNode->SortChilds();
-
-		gMatrixStack.LoadIdentity();
-
 		DrawNode(*iter);
 	}
+
+	gMatrixStack.PopMatrix();
 }
 
 void Render_GLES::AddCommond(const RenderCommond& rCommond)
@@ -462,6 +454,26 @@ void Render_GLES::BegainDraw()
 	_winSize._height = h;
 	_displayFramebufferScale = mathfu::vec2(_winSize._width > 0 ? ((float)display_w / w) : 0,
 		h > 0 ? ((float)display_h / h) : 0);
+
+	if (_pRootScene == nullptr)
+	{
+		_pRootScene = memnew(Scene);
+		_pRootScene->SetSize(_winSize);
+		{
+			Ref<Sprite> pSprite = memnew(Sprite);
+			pSprite->SetPosition(mathfu::vec2(100, 100));
+			pSprite->SetSize(Sizef(200.0f, 300.0f));
+			pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
+			_pRootScene->AddChild(pSprite);
+
+			Ref<Sprite> pSprite1 = memnew(Sprite);
+			pSprite1->SetPosition(mathfu::vec2(-20, 30));
+			pSprite1->SetSize(Sizef(100.0f, 100.0f));
+			pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
+			pSprite->AddChild(pSprite1);
+		}
+
+	}
 }
 
 void Render_GLES::EndDraw()
