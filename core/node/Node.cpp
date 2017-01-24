@@ -17,10 +17,12 @@ Node::Node()
 	, _color(0.0f, 0.0f, 0.0f, 1.0f)
 	, _parent(nullptr)
 	, _fScale(1.0f)
+	, _bCentered(true)
+	, _bVisible(true)
 {
 	_transform = mathfu::mat3::Identity();
 	_localTransform = mathfu::mat3::Identity();
-	_childs.clear();
+	_anchorPoint = mathfu::vec2(0.5f, 0.5f);
 }
 
 Node::~Node()
@@ -91,10 +93,10 @@ const mathfu::mat3& Node::TransformLocal()
 
 	if (_fRotation != 0.0f)
 	{
-		_localTransform *= mathfu::mat3::RotationPoint(_fRotation, Center());
+		_localTransform *= mathfu::mat3::RotationPoint(_fRotation, _position);
 	}
 
-	_localTransform *= mathfu::mat3::FromTranslationVector(_position);
+	_localTransform *= mathfu::mat3::FromTranslationVector(_position - AnchorDelta());
 
 	return _localTransform;
 }

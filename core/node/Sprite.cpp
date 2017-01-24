@@ -36,20 +36,23 @@ void Sprite::Draw()
 
 	vert.color = _color;
 
+	mathfu::vec2 anchorDelta = AnchorDelta();
+	const Sizef& scaleSize = ScaledSize();
+
 	vert.position.x() = 0;
 	vert.position.y() = 0;
 	cmd._vert.push_back(vert);
 
-	vert.position.x() = _scaleSize._width;
+	vert.position.x() = scaleSize._width;
 	vert.position.y() = 0;
 	cmd._vert.push_back(vert);
 
 	vert.position.x() = 0;
-	vert.position.y() = _scaleSize._height;
+	vert.position.y() = scaleSize._height;
 	cmd._vert.push_back(vert);
 
-	vert.position.x() = _scaleSize._width;
-	vert.position.y() = _scaleSize._height;
+	vert.position.x() = scaleSize._width;
+	vert.position.y() = scaleSize._height;
 	cmd._vert.push_back(vert);
 
 	//make indices
@@ -61,7 +64,7 @@ void Sprite::Draw()
 	Node* pParent = GetParent();
 
 	cmd._clipRec._origin = mathfu::vec2(pParent->GetTransform()[6], pParent->GetTransform()[7]);
-	cmd._clipRec._size = pParent->Size();
+	cmd._clipRec._size = pParent->ScaledSize();
 	pParent->ConvertToGLSpace(cmd._clipRec._origin);
 
 	math::GetMat4(cmd._mv, _transform);

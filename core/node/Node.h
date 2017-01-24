@@ -33,8 +33,9 @@ public:
 	_FORCE_INLINE_ void SetPosition(const mathfu::vec2& rPos) { _position = rPos; }
 	_FORCE_INLINE_ const mathfu::vec2& Position() const { return _position; }
 
-	_FORCE_INLINE_ void SetSize(const Sizef& rSize) { _size = rSize; _scaleSize = Sizef(_size._width * _fScale, _size._height * _fScale); }
-	_FORCE_INLINE_ const Sizef& Size() const { return _scaleSize; }
+	_FORCE_INLINE_ void SetSize(const Sizef& rSize) { _size = rSize; }
+	_FORCE_INLINE_ const Sizef& Size() const { return _size; }
+	_FORCE_INLINE_ const Sizef ScaledSize() const { return Sizef(_size._width * _fScale, _size._height * _fScale); }
 
 	_FORCE_INLINE_ const std::list<Ref<Node>>& GetChilds() const { return _childs; }
 
@@ -56,21 +57,56 @@ public:
 	_FORCE_INLINE_ const mathfu::mat3& GetTransform() const { return _transform; }
 	_FORCE_INLINE_ const mathfu::mat3& GetLocalTransform() const { return _localTransform; }
 
-	_FORCE_INLINE_ mathfu::vec2 Center() { return mathfu::vec2(_position.x() + _scaleSize._width / 2, _position.y() + _scaleSize._height / 2); }
+	//get current center
+	_FORCE_INLINE_ mathfu::vec2 Center() const 
+	{
+		return _bCentered ? _position : _position + mathfu::vec2(_size._width * _fScale / 2.0f, _size._height * _fScale / 2.0f);
+	}
+
+	//center func, default is false
+	_FORCE_INLINE_ void SetCentered(bool bCentered) 
+	{
+		if (_bCentered != bCentered)
+		{
+			_bCentered = bCentered;
+			if (_bCentered)
+			{
+				_anchorPoint.x() = _anchorPoint.y() = 0.5f;
+			}
+			else
+			{
+				_anchorPoint.x() = _anchorPoint.y() = 0.0f;
+			}
+		}
+	}
+	_FORCE_INLINE_ bool Centered() { return _bCentered; }
+
+	_FORCE_INLINE_ void SetVisible(bool bVisible) { _bVisible = bVisible; }
+	_FORCE_INLINE_ bool Visible() const { return _bVisible; }
+	_FORCE_INLINE_ void Hide() { _bVisible = false; }
+	_FORCE_INLINE_ void Show() { _bVisible = true; }
 protected:
 	virtual void Draw();
 	virtual void Update(float fDelta);
 
 	void SortChilds();
 
+	_FORCE_INLINE_ mathfu::vec2 AnchorDelta() const
+	{
+		return mathfu::vec2(_anchorPoint.x() * _fScale * _size._width, _anchorPoint.y() * _fScale * _size._height);
+	}
+
+protected:
 	int _iZOrder;
 	int _iSubZOrder;//child added order
 	mathfu::vec2 _position;
 	mathfu::vec4 _color;
+	mathfu::vec2 _anchorPoint;
 	Sizef _size;
-	Sizef _scaleSize;
 	float _fRotation;
 	float _fScale;
+	bool _bCentered;
+	bool _bVisible;
 
 	//tranform
 	mathfu::mat3 _transform;

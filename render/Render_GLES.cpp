@@ -359,12 +359,12 @@ void Render_GLES::DrawScene()
 	//generate commond
 	_renderCommonds.clear();
 
-	gMatrixStack.LoadIdentity();
+	gMatrixStack.PushMatrix();
 	DrawNode(_pRootScene);
 	gMatrixStack.PopMatrix();
 
 	glClearColor(0.5, 0.5, 0.5, 1);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glViewport(0, 0, fb_width, fb_height);
 
 	glEnable(GL_BLEND);
@@ -373,7 +373,7 @@ void Render_GLES::DrawScene()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	//scissor test
-	//glEnable(GL_SCISSOR_TEST);
+	glEnable(GL_SCISSOR_TEST);
 	//active texture
 	//glActiveTexture(GL_TEXTURE0);
 
@@ -418,8 +418,6 @@ void Render_GLES::DrawScene()
 
 void Render_GLES::DrawNode(Ref<Node> pNode)
 {
-	gMatrixStack.PushMatrix();
-
 	gMatrixStack.MultMatrix(pNode->TransformLocal());
 	pNode->SetTransform(gMatrixStack.GetMatrix());
 
@@ -427,12 +425,16 @@ void Render_GLES::DrawNode(Ref<Node> pNode)
 
 	for (std::list<Ref<Node>>::iterator iter = pNode->_childs.begin(); iter != pNode->_childs.end(); ++iter)
 	{
+		if (!((*iter)->Visible()))
+		{
+			continue;
+		}
 		//only sort when a new child add to the node , make zorder effect
 		pNode->SortChilds();
+		gMatrixStack.PushMatrix();
 		DrawNode(*iter);
+		gMatrixStack.PopMatrix();
 	}
-
-	gMatrixStack.PopMatrix();
 }
 
 void Render_GLES::AddCommond(const RenderCommond& rCommond)
@@ -455,26 +457,38 @@ void Render_GLES::BegainDraw()
 	{
 		_pRootScene = memnew(Scene);
 		_pRootScene->SetSize(_winSize);
+		_pRootScene->SetPosition(mathfu::vec2(400, 300));
 		{
 			Ref<Sprite> pSprite = memnew(Sprite);
-			pSprite->SetPosition(mathfu::vec2(100, 100));
+			pSprite->SetPosition(mathfu::vec2(400, 300));
 			pSprite->SetSize(Sizef(300.0f, 300.0f));
 			pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
-			pSprite->SetRotation(M_PI / 4);
+			//pSprite->SetRotation(M_PI / 4);
 			_pRootScene->AddChild(pSprite);
 
 			Ref<Sprite> pSprite1 = memnew(Sprite);
-			pSprite1->SetPosition(mathfu::vec2(-20, 100));
+			pSprite1->SetPosition(mathfu::vec2(150, 150));
 			pSprite1->SetSize(Sizef(100.0f, 100.0f));
 			pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
-			//pSprite1->SetRotation(M_PI / 4);
 			pSprite->AddChild(pSprite1);
 
 			Ref<Sprite> pSprite2 = memnew(Sprite);
-			pSprite2->SetPosition(mathfu::vec2(20, 20));
-			pSprite2->SetSize(Sizef(40.0f, 40.0f));
+			pSprite2->SetPosition(mathfu::vec2(50, 50));
+			pSprite2->SetSize(Sizef(50.0f, 50.0f));
 			pSprite2->SetColor(mathfu::vec4(0.2, 0.3, 0.2, 1));
+			//pSprite2->SetCentered(false);
+			//pSprite2->SetScale(1.2);
+			pSprite2->SetRotation(M_PI / 4);
+			//pSprite2->Hide();
 			pSprite1->AddChild(pSprite2);
+
+			Ref<Sprite> pSprite4 = memnew(Sprite);
+			pSprite4->SetPosition(mathfu::vec2(300, 150));
+			pSprite4->SetSize(Sizef(100.0f, 100.0f));
+			pSprite4->SetColor(mathfu::vec4(0.7, 0.2, 0.2, 1));
+			//pSprite4->SetRotation(M_PI / 4);
+			_pRootScene->AddChild(pSprite4);
+
 		}
 
 	}

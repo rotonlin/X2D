@@ -23,6 +23,21 @@
     <Filter Include="render">
       <UniqueIdentifier>{7f35971f-f02d-4309-a006-384fdc061acd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="third_partys">
+      <UniqueIdentifier>{96c571c5-211b-4ace-b0c8-e6d9439ebb75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_partys\glew">
+      <UniqueIdentifier>{766c77dc-684c-4650-aa47-77d7d78edddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_partys\sdl">
+      <UniqueIdentifier>{a69cbdd8-55bb-4eb0-a986-fe88f1d98c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_partys\glew\GL">
+      <UniqueIdentifier>{0a052770-df3a-42ac-988b-b6b6d5d78254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\examples">
+      <UniqueIdentifier>{abf4f922-601a-4b1a-8247-3433389e08af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -179,6 +194,228 @@
     </ClInclude>
     <ClInclude Include="..\..\render\RenderCommond.h">
       <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\glew\include\GL\eglew.h">
+      <Filter>third_partys\glew\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\glew\include\GL\glew.h">
+      <Filter>third_partys\glew\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\glew\include\GL\glxew.h">
+      <Filter>third_partys\glew\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\glew\include\GL\wglew.h">
+      <Filter>third_partys\glew\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\begin_code.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\close_code.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_assert.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_atomic.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_audio.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_bits.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_blendmode.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_clipboard.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_config.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_cpuinfo.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_egl.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_endian.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_error.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_events.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_filesystem.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_gamecontroller.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_gesture.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_haptic.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_hints.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_joystick.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_keyboard.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_keycode.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_loadso.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_log.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_main.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_messagebox.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_mouse.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_mutex.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_name.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengl.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengl_glext.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengles.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengles2.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengles2_gl2.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengles2_gl2ext.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengles2_gl2platform.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_opengles2_khrplatform.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_pixels.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_platform.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_power.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_quit.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_rect.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_render.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_revision.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_rwops.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_scancode.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_shape.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_stdinc.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_surface.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_system.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_syswm.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_assert.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_common.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_compare.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_crc32.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_font.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_fuzzer.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_harness.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_images.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_log.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_md5.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_test_random.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_thread.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_timer.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_touch.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_types.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_version.h">
+      <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\sdl\include\SDL_video.h">
+      <Filter>third_partys\sdl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
