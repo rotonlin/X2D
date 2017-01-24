@@ -58,6 +58,9 @@
     <ClCompile Include="..\..\core\node\Scene.cpp">
       <Filter>core\node</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\render\Program.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\core\mathfu\constants.h">
@@ -416,6 +419,9 @@
     </ClInclude>
     <ClInclude Include="..\..\third_partys\sdl\include\SDL_video.h">
       <Filter>third_partys\sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\render\Program.h">
+      <Filter>render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

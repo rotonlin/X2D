@@ -98,7 +98,7 @@ void Node::GetGloblePosition(mathfu::vec2& rVec2)
 const mathfu::mat3& Node::TransformLocal()
 {
 	//should check transform dirty
-	//if (_bTransformDirty)
+	if (_bTransformDirty)
 	{
 		_localTransform = mathfu::mat3::Identity();
 
@@ -106,7 +106,6 @@ const mathfu::mat3& Node::TransformLocal()
 
 		if (_fRotation != 0.0f)
 		{
-			_fRotation += 0.05;
 			_localTransform *= mathfu::mat3::RotationPoint(_fRotation, Center());
 		}
 

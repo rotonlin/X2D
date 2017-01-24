@@ -18,6 +18,7 @@
 
 typedef void *SDL_GLContext;
 struct SDL_Window;
+class Program;
 
 class Render_GLES
 {
@@ -58,9 +59,10 @@ private:
 
 	GLuint _vao;
 	GLuint _vbos[MAX];
-	GLuint _programObject;
 	GLuint _projectionLocation;
 	GLuint _modelViewLocation;
+
+	Ref<Program> _program;
 
 	Ref<Scene> _pRootScene;
 

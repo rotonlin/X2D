@@ -9,6 +9,7 @@
 #include "Render_GLES.h"
 #include "SDL.h"
 #include "render/MatrixStack.h"
+#include "render/Program.h"
 
 //--------------------------------------------------------------------
 static MatrixStack<mathfu::mat3, mathfu::vec2> gMatrixStack;
@@ -28,119 +29,6 @@ Render_GLES::~Render_GLES()
 Render_GLES& Render_GLES::getSingleton()
 {
     return *_sInstance;
-}
-
-GLuint esLoadShader(GLenum type, const char *shaderSrc)
-{
-	GLuint shader;
-	GLint compiled;
-
-	// Create the shader object
-	shader = glCreateShader(type);
-
-	if (shader == 0)
-	{
-		return 0;
-	}
-
-	// Load the shader source
-	glShaderSource(shader, 1, &shaderSrc, NULL);
-
-	// Compile the shader
-	glCompileShader(shader);
-
-	// Check the compile status
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-
-	if (!compiled)
-	{
-		GLint infoLen = 0;
-
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-
-		if (infoLen > 1)
-		{
-			char *infoLog = (char*)malloc(sizeof(char) * infoLen);
-
-			glGetShaderInfoLog(shader, infoLen, NULL, infoLog);
-			printf("Error compiling shader:\n%s\n", infoLog);
-
-			free(infoLog);
-		}
-
-		glDeleteShader(shader);
-		return 0;
-	}
-
-	return shader;
-
-}
-
-GLuint esLoadProgram(const char *vertShaderSrc, const char *fragShaderSrc)
-{
-	GLuint vertexShader;
-	GLuint fragmentShader;
-	GLuint programObject;
-	GLint linked;
-
-	// Load the vertex/fragment shaders
-	vertexShader = esLoadShader(GL_VERTEX_SHADER, vertShaderSrc);
-
-	if (vertexShader == 0)
-	{
-		return 0;
-	}
-
-	fragmentShader = esLoadShader(GL_FRAGMENT_SHADER, fragShaderSrc);
-
-	if (fragmentShader == 0)
-	{
-		glDeleteShader(vertexShader);
-		return 0;
-	}
-
-	// Create the program object
-	programObject = glCreateProgram();
-
-	if (programObject == 0)
-	{
-		return 0;
-	}
-
-	glAttachShader(programObject, vertexShader);
-	glAttachShader(programObject, fragmentShader);
-
-	// Link the program
-	glLinkProgram(programObject);
-
-	// Check the link status
-	glGetProgramiv(programObject, GL_LINK_STATUS, &linked);
-
-	if (!linked)
-	{
-		GLint infoLen = 0;
-
-		glGetProgramiv(programObject, GL_INFO_LOG_LENGTH, &infoLen);
-
-		if (infoLen > 1)
-		{
-			char *infoLog = (char*)malloc(sizeof(char) * infoLen);
-
-			glGetProgramInfoLog(programObject, infoLen, NULL, infoLog);
-			printf("Error linking program:\n%s\n", infoLog);
-
-			free(infoLog);
-		}
-
-		glDeleteProgram(programObject);
-		return 0;
-	}
-
-	// Free up no longer needed shader resources
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	return programObject;
 }
 
 void Render_GLES::InitImGUI()
@@ -210,14 +98,11 @@ bool Render_GLES::Init()
 		"    o_fragColor = v_color; \n"
 		"}";
 
-	_programObject = esLoadProgram(vShaderStr, fShaderStr);
-	if (_programObject == 0)
-	{
-		return false;
-	}
+	_program = memnew(Program);
+	_program->Init(vShaderStr, fShaderStr);
 
-	_projectionLocation = glGetUniformLocation(_programObject, "perspective");
-	_modelViewLocation = glGetUniformLocation(_programObject, "modelview");
+	_projectionLocation = _program->GetUniformLocation("perspective");
+	_modelViewLocation = _program->GetUniformLocation("modelview");
 
 	glGenBuffers(1, &_vbos[VERTEX]);
 	glGenBuffers(1, &_vbos[INDICES]);
@@ -271,7 +156,7 @@ void Render_GLES::DrawTriangles()
 	GLushort indices[3] = { 0, 1, 2 };
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(_programObject);
+	_program->UseProgram();
 
 	if (_vbos[VERTEX] == 0 && _vbos[INDICES] == 0)
 	{
@@ -349,10 +234,8 @@ void Render_GLES::DrawSquare()
 
 void Render_GLES::Clear()
 {
-	glDepthMask(true);
 	glClearColor(0.5, 0.5, 0.5, 1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDepthMask(false);
+	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void Render_GLES::DrawScene()
@@ -379,12 +262,13 @@ void Render_GLES::DrawScene()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
+
 	//scissor test
 	//glEnable(GL_SCISSOR_TEST);
 	//active texture
 	//glActiveTexture(GL_TEXTURE0);
 
-	glUseProgram(_programObject);
+	_program->UseProgram();
 
 	glBindVertexArray(_vao);
 
@@ -475,7 +359,6 @@ void Render_GLES::BegainDraw()
 			pSprite->SetSize(Sizef(300.0f, 300.0f));
 			pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
 			pSprite->SetRotation(M_PI / 4);
-			pSprite->SetScale(0.5);
 			_pRootScene->AddChild(pSprite);
 
 			Ref<Sprite> pSprite1 = memnew(Sprite);
