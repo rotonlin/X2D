@@ -755,6 +755,19 @@ class Matrix {
     return RotationZ(Vector<T, 2>(cosf(angle), sinf(angle)));
   }
 
+  /// @brief Create a 3x3 rotation Matrix from an point
+  /// around the Z axis.
+  ///
+  /// @param vec2
+  /// @return Matrix containing the result.
+  static inline Matrix<T, 3> RotationPoint(T angle, const Vector<T, 2>& v)
+  {
+	  return Matrix<T, 3>(cosf(angle), sinf(angle), 0,
+						  -sinf(angle), cosf(angle), 0,
+						  v.x() - v.x() * cosf(angle) + v.y() * sinf(angle),
+						  v.y() - v.x() * sinf(angle) - v.y() * cosf(angle), 1);
+  }
+
   /// @brief Create a 4x4 perspective Matrix.
   ///
   /// @param fovy Field of view.

@@ -13,9 +13,9 @@
 
 struct Vertex
 {
-	float position[2];
-	float color[4];
-	float uv[2];
+	mathfu::vec2 position;
+	mathfu::vec4 color;
+	mathfu::vec2 uv;
 };
 
 struct Sizef
@@ -40,5 +40,31 @@ struct Rectf
 	mathfu::vec2 _origin;
 	Sizef _size;
 };
+
+namespace math 
+{
+	_FORCE_INLINE_ void GetMat4(mathfu::mat4& rMat4, const mathfu::mat3& rMat3)
+	{
+		rMat4[0] = rMat3[0];
+		rMat4[1] = rMat3[1];
+		rMat4[2] = 0;
+		rMat4[3] = rMat3[2];
+
+		rMat4[4] = rMat3[3];
+		rMat4[5] = rMat3[4];
+		rMat4[6] = 0;
+		rMat4[7] = rMat3[5];
+
+		rMat4[8] = 0;
+		rMat4[9] = 0;
+		rMat4[10] = 1;
+		rMat4[11] = 0;
+
+		rMat4[12] = rMat3[6];
+		rMat4[13] = rMat3[7];
+		rMat4[14] = 0;
+		rMat4[15] = rMat3[8];
+	}
+}
 
 #endif /* Math_h */

@@ -11,7 +11,7 @@
 #include "render/MatrixStack.h"
 
 //--------------------------------------------------------------------
-static MatrixStack gMatrixStack;
+static MatrixStack<mathfu::mat3, mathfu::vec2> gMatrixStack;
 
 Render_GLES* Render_GLES::_sInstance = new Render_GLES();
 
@@ -373,7 +373,7 @@ void Render_GLES::DrawScene()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	//scissor test
-	glEnable(GL_SCISSOR_TEST);
+	//glEnable(GL_SCISSOR_TEST);
 	//active texture
 	//glActiveTexture(GL_TEXTURE0);
 
@@ -420,13 +420,9 @@ void Render_GLES::DrawNode(Ref<Node> pNode)
 {
 	gMatrixStack.PushMatrix();
 
-	gMatrixStack.Scale(pNode->Scale(), pNode->Scale(), pNode->Scale());
-	gMatrixStack.Rotate(pNode->Rotation(), 1.0f, 1.0f, 1.0f);
-
-	const mathfu::vec2& rPos = pNode->Position();
-	gMatrixStack.Translate(rPos.x(), rPos.y(), 0);
-
+	gMatrixStack.MultMatrix(pNode->TransformLocal());
 	pNode->SetTransform(gMatrixStack.GetMatrix());
+
 	pNode->Draw();
 
 	for (std::list<Ref<Node>>::iterator iter = pNode->_childs.begin(); iter != pNode->_childs.end(); ++iter)
@@ -462,15 +458,23 @@ void Render_GLES::BegainDraw()
 		{
 			Ref<Sprite> pSprite = memnew(Sprite);
 			pSprite->SetPosition(mathfu::vec2(100, 100));
-			pSprite->SetSize(Sizef(200.0f, 300.0f));
+			pSprite->SetSize(Sizef(300.0f, 300.0f));
 			pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
+			pSprite->SetRotation(M_PI / 4);
 			_pRootScene->AddChild(pSprite);
 
 			Ref<Sprite> pSprite1 = memnew(Sprite);
-			pSprite1->SetPosition(mathfu::vec2(-20, 30));
+			pSprite1->SetPosition(mathfu::vec2(-20, 100));
 			pSprite1->SetSize(Sizef(100.0f, 100.0f));
 			pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
+			//pSprite1->SetRotation(M_PI / 4);
 			pSprite->AddChild(pSprite1);
+
+			Ref<Sprite> pSprite2 = memnew(Sprite);
+			pSprite2->SetPosition(mathfu::vec2(20, 20));
+			pSprite2->SetSize(Sizef(40.0f, 40.0f));
+			pSprite2->SetColor(mathfu::vec4(0.2, 0.3, 0.2, 1));
+			pSprite1->AddChild(pSprite2);
 		}
 
 	}

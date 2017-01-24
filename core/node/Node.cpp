@@ -18,7 +18,9 @@ Node::Node()
 	, _parent(nullptr)
 	, _fScale(1.0f)
 {
-	_transform = mathfu::mat4::Identity();
+	_transform = mathfu::mat3::Identity();
+	_localTransform = mathfu::mat3::Identity();
+	_childs.clear();
 }
 
 Node::~Node()
@@ -38,6 +40,10 @@ void Node::Update(float fDelta)
 
 void Node::AddChild(Ref<Node> node)
 {
+	if (node.ptr() == this)
+	{
+		return;
+	}
 	node->_iZOrder = _iSubZOrder++;
 	node->_parent = this;
 	_childs.push_back(node);
@@ -73,4 +79,22 @@ void Node::ConvertToGLSpace(mathfu::vec2& rVec2)
 {
 	const Sizef& rWinSize = Render_GLES::getSingleton().GetWinSize();
 	rVec2.y() = rWinSize._height - rVec2.y() - _size._height;
+}
+
+const mathfu::mat3& Node::TransformLocal()
+{
+	_localTransform = mathfu::mat3::Identity();
+	if (_fScale != 1.0f)
+	{
+		_localTransform *= mathfu::mat3::FromScaleVector(mathfu::vec2(_fScale));
+	}
+
+	if (_fRotation != 0.0f)
+	{
+		_localTransform *= mathfu::mat3::RotationPoint(_fRotation, Center());
+	}
+
+	_localTransform *= mathfu::mat3::FromTranslationVector(_position);
+
+	return _localTransform;
 }

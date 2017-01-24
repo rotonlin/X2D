@@ -8,6 +8,7 @@
 
 #include "node/Sprite.h"
 #include "render/Render_GLES.h"
+#include "Math.h"
 
 Sprite::Sprite()
 {
@@ -33,22 +34,22 @@ void Sprite::Draw()
 	Vertex vert;
 	memset(&vert, 0, sizeof(vert));
 
-	memcpy(vert.color, &_color, sizeof(_color));
+	vert.color = _color;
 
-	vert.position[0] = 0;
-	vert.position[1] = 0;
+	vert.position.x() = 0;
+	vert.position.y() = 0;
 	cmd._vert.push_back(vert);
 
-	vert.position[0] = _scaleSize._width;
-	vert.position[1] = 0;
+	vert.position.x() = _scaleSize._width;
+	vert.position.y() = 0;
 	cmd._vert.push_back(vert);
 
-	vert.position[0] = 0;
-	vert.position[1] = _scaleSize._height;
+	vert.position.x() = 0;
+	vert.position.y() = _scaleSize._height;
 	cmd._vert.push_back(vert);
 
-	vert.position[0] = _scaleSize._width;
-	vert.position[1] = _scaleSize._height;
+	vert.position.x() = _scaleSize._width;
+	vert.position.y() = _scaleSize._height;
 	cmd._vert.push_back(vert);
 
 	//make indices
@@ -59,11 +60,11 @@ void Sprite::Draw()
 
 	Node* pParent = GetParent();
 
-	cmd._clipRec._origin = mathfu::vec2(pParent->GetTransform()[12], pParent->GetTransform()[13]);
+	cmd._clipRec._origin = mathfu::vec2(pParent->GetTransform()[6], pParent->GetTransform()[7]);
 	cmd._clipRec._size = pParent->Size();
 	pParent->ConvertToGLSpace(cmd._clipRec._origin);
 
-	cmd._mv = _transform;
+	math::GetMat4(cmd._mv, _transform);
 
 	Render_GLES::getSingleton().AddCommond(cmd);
 }

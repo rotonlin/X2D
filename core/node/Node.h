@@ -51,8 +51,12 @@ public:
 	_FORCE_INLINE_ void SetScale(float fScale) { _fScale = fScale; }
 	_FORCE_INLINE_ float Scale() const { return _fScale; }
 
-	void SetTransform(const mathfu::mat4& rTransform) { _transform = rTransform; }
-	_FORCE_INLINE_ const mathfu::mat4& GetTransform() const { return _transform; }
+	const mathfu::mat3& TransformLocal();
+	_FORCE_INLINE_ void SetTransform(const mathfu::mat3& rTransform) { _transform = rTransform; }
+	_FORCE_INLINE_ const mathfu::mat3& GetTransform() const { return _transform; }
+	_FORCE_INLINE_ const mathfu::mat3& GetLocalTransform() const { return _localTransform; }
+
+	_FORCE_INLINE_ mathfu::vec2 Center() { return mathfu::vec2(_position.x() + _scaleSize._width / 2, _position.y() + _scaleSize._height / 2); }
 protected:
 	virtual void Draw();
 	virtual void Update(float fDelta);
@@ -69,7 +73,8 @@ protected:
 	float _fScale;
 
 	//tranform
-	mathfu::mat4 _transform;
+	mathfu::mat3 _transform;
+	mathfu::mat3 _localTransform;
 private:
 	bool _bSortDirty;
 
