@@ -17,12 +17,12 @@ Node::Node()
 	, _color(0.0f, 0.0f, 0.0f, 1.0f)
 	, _parent(nullptr)
 	, _fScale(1.0f)
-	, _bCentered(true)
 	, _bVisible(true)
+	, _bTransformDirty(true)
+	, _bClipByParent(false)
 {
 	_transform = mathfu::mat3::Identity();
 	_localTransform = mathfu::mat3::Identity();
-	_anchorPoint = mathfu::vec2(0.5f, 0.5f);
 }
 
 Node::~Node()
@@ -83,20 +83,40 @@ void Node::ConvertToGLSpace(mathfu::vec2& rVec2)
 	rVec2.y() = rWinSize._height - rVec2.y() - _size._height;
 }
 
+void Node::GetGloblePosition(mathfu::vec2& rVec2)
+{
+	rVec2 = _position;
+	Node* p = _parent;
+	while (p != nullptr)
+	{
+		rVec2 += p->Position();
+		p = p->_parent;
+	}
+	ConvertToGLSpace(rVec2);
+}
+
 const mathfu::mat3& Node::TransformLocal()
 {
-	_localTransform = mathfu::mat3::Identity();
-	if (_fScale != 1.0f)
+	//should check transform dirty
+	//if (_bTransformDirty)
 	{
-		_localTransform *= mathfu::mat3::FromScaleVector(mathfu::vec2(_fScale));
-	}
+		_localTransform = mathfu::mat3::Identity();
 
-	if (_fRotation != 0.0f)
-	{
-		_localTransform *= mathfu::mat3::RotationPoint(_fRotation, _position);
-	}
+		_localTransform *= mathfu::mat3::FromTranslationVector(_position);
 
-	_localTransform *= mathfu::mat3::FromTranslationVector(_position - AnchorDelta());
+		if (_fRotation != 0.0f)
+		{
+			_fRotation += 0.05;
+			_localTransform *= mathfu::mat3::RotationPoint(_fRotation, Center());
+		}
+
+		if (_fScale != 1.0f)
+		{
+			_localTransform *= mathfu::mat3::FromScaleVector(mathfu::vec2(_fScale));
+		}
+
+		_bTransformDirty = false;
+	}
 
 	return _localTransform;
 }

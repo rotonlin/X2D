@@ -45,6 +45,7 @@ private:
 
 	void InitImGUI();
 	void DrawNode(Ref<Node> pNode);
+	void Clear();
 private:
 	enum VertexAttribIndex
 	{

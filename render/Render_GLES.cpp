@@ -160,7 +160,7 @@ bool Render_GLES::Init()
 		SDL_WINDOWPOS_CENTERED,
 		800,
 		600,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+		SDL_WINDOW_OPENGL);
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
@@ -347,6 +347,14 @@ void Render_GLES::DrawSquare()
 
 }
 
+void Render_GLES::Clear()
+{
+	glDepthMask(true);
+	glClearColor(0.5, 0.5, 0.5, 1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDepthMask(false);
+}
+
 void Render_GLES::DrawScene()
 {
 	int fb_width = (int)(_winSize._width * _displayFramebufferScale.x());
@@ -363,8 +371,7 @@ void Render_GLES::DrawScene()
 	DrawNode(_pRootScene);
 	gMatrixStack.PopMatrix();
 
-	glClearColor(0.5, 0.5, 0.5, 1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	Clear();
 	glViewport(0, 0, fb_width, fb_height);
 
 	glEnable(GL_BLEND);
@@ -373,7 +380,7 @@ void Render_GLES::DrawScene()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	//scissor test
-	glEnable(GL_SCISSOR_TEST);
+	//glEnable(GL_SCISSOR_TEST);
 	//active texture
 	//glActiveTexture(GL_TEXTURE0);
 
@@ -411,7 +418,7 @@ void Render_GLES::DrawScene()
 	//clean
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 	glDisable(GL_BLEND);
 	glBindVertexArray(0);
 }
@@ -429,6 +436,10 @@ void Render_GLES::DrawNode(Ref<Node> pNode)
 		{
 			continue;
 		}
+
+		//not in view
+
+
 		//only sort when a new child add to the node , make zorder effect
 		pNode->SortChilds();
 		gMatrixStack.PushMatrix();
@@ -457,37 +468,31 @@ void Render_GLES::BegainDraw()
 	{
 		_pRootScene = memnew(Scene);
 		_pRootScene->SetSize(_winSize);
-		_pRootScene->SetPosition(mathfu::vec2(400, 300));
+		_pRootScene->SetPosition(mathfu::vec2(0, 0));
 		{
 			Ref<Sprite> pSprite = memnew(Sprite);
-			pSprite->SetPosition(mathfu::vec2(400, 300));
+			pSprite->SetPosition(mathfu::vec2(250, 150));
 			pSprite->SetSize(Sizef(300.0f, 300.0f));
 			pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
-			//pSprite->SetRotation(M_PI / 4);
+			pSprite->SetRotation(M_PI / 4);
+			pSprite->SetScale(0.5);
 			_pRootScene->AddChild(pSprite);
 
 			Ref<Sprite> pSprite1 = memnew(Sprite);
-			pSprite1->SetPosition(mathfu::vec2(150, 150));
+			pSprite1->SetPosition(pSprite->Center());
 			pSprite1->SetSize(Sizef(100.0f, 100.0f));
 			pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
+			pSprite1->SetRotation(-M_PI / 4);
+			pSprite1->SetScale(1.2);
 			pSprite->AddChild(pSprite1);
 
 			Ref<Sprite> pSprite2 = memnew(Sprite);
-			pSprite2->SetPosition(mathfu::vec2(50, 50));
+			pSprite2->SetPosition(pSprite1->Center());
 			pSprite2->SetSize(Sizef(50.0f, 50.0f));
 			pSprite2->SetColor(mathfu::vec4(0.2, 0.3, 0.2, 1));
-			//pSprite2->SetCentered(false);
-			//pSprite2->SetScale(1.2);
 			pSprite2->SetRotation(M_PI / 4);
 			//pSprite2->Hide();
 			pSprite1->AddChild(pSprite2);
-
-			Ref<Sprite> pSprite4 = memnew(Sprite);
-			pSprite4->SetPosition(mathfu::vec2(300, 150));
-			pSprite4->SetSize(Sizef(100.0f, 100.0f));
-			pSprite4->SetColor(mathfu::vec4(0.7, 0.2, 0.2, 1));
-			//pSprite4->SetRotation(M_PI / 4);
-			_pRootScene->AddChild(pSprite4);
 
 		}
 
