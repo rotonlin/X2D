@@ -31,28 +31,32 @@ void ResourceManager::AddLoader(Ref<ResourceLoader> pLoader)
 	_loaders.push_back(pLoader);
 }
 
-void ResourceManager::Load(const std::string& fileName)
+Ref<Resource> ResourceManager::Load(const std::string& fileName)
 {
-	bool bLoadOk = false;
-
 	//ensure cache
+    Ref<Resource> res = ResourceCache::GetSingleton().GetResource(fileName);
+    if (res.ptr())
+    {
+        return res;
+    }
 
 
 	for (int i = 0, l = _loaders.size(); i < l; ++i)
 	{
 		if (_loaders[i]->Detect(fileName))
 		{
-			bLoadOk = _loaders[i]->Load(fileName);
-			if (bLoadOk)
+			res = _loaders[i]->Load(fileName);
+			if (res.ptr())
 			{
-				break;
+                res->SetPath(fileName);
+                return res;
 			}
 		}
 	}
 
-	if (!bLoadOk)
-	{
-		printf("resource %s load faild\n", fileName.c_str());
-		assert(0);
-	}
+
+    printf("resource %s load faild\n", fileName.c_str());
+    //assert(0);
+
+    return nullptr;
 }

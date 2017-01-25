@@ -9,7 +9,13 @@
 #ifndef Render_GLES_h
 #define Render_GLES_h
 
-#include <GL/glew.h>  
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h>
+#else
+#include <GL/glew.h>
+#endif
+
 #include <vector>
 #include "core/node/Scene.h"
 #include "core/node/Sprite.h"
@@ -61,6 +67,7 @@ private:
 	GLuint _vbos[MAX];
 	GLuint _projectionLocation;
 	GLuint _modelViewLocation;
+    GLuint _textureId;
 
 	Ref<Program> _program;
 

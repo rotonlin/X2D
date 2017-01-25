@@ -9,7 +9,7 @@
 #define Core_Node_h
 
 #include "Ref.h"
-#include "core/Math.h"
+#include "core/MathUtility.h"
 
 //---------------------------------------
 class Node : public Reference

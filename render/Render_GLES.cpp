@@ -11,6 +11,10 @@
 #include "render/MatrixStack.h"
 #include "render/Program.h"
 
+//test
+#include "res/ResourceManager.h"
+#include "res/Image.h"
+
 //--------------------------------------------------------------------
 static MatrixStack<mathfu::mat3, mathfu::vec2> gMatrixStack;
 
@@ -53,7 +57,7 @@ bool Render_GLES::Init()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -61,15 +65,18 @@ bool Render_GLES::Init()
 
 	pContext = SDL_GL_CreateContext(pWindow);
 
-	// Initialize GLEW to setup the OpenGL Function pointers  
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK)
-	{
-		return false;
-	}
+
+#ifdef _WIN32
+    // Initialize GLEW to setup the OpenGL Function pointers
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK)
+    {
+        return false;
+    }
+#endif
 
 	const char vShaderStr[] =
-		"#version 300 es                            \n"
+		"#version 330                               \n"
 		"precision mediump float;					\n"
 		"layout(location = 0) in vec2 a_position;   \n"
 		"layout(location = 1) in vec4 a_color;      \n"
@@ -87,7 +94,7 @@ bool Render_GLES::Init()
 
 
 	const char fShaderStr[] =
-		"#version 300 es            \n"
+		"#version 330               \n"
 		"precision mediump float;	\n"
 		"uniform sampler2D Texture;	\n"
 		"in vec4 v_color;           \n"
@@ -121,6 +128,9 @@ bool Render_GLES::Init()
 	glVertexAttribPointer(UV, 2, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 
 	//texture creation
+    Ref<Image> pImage = ResourceManager::GetSingleton().Load("/Users/roton/Desktop/AllM3Code/X2D/examples/image.png");
+    glGenTextures(1, &_textureId);
+    glBindTexture(GL_TEXTURE_2D, _textureId);
 
 	// Restore modified GL state
 	glBindTexture(GL_TEXTURE_2D, 0);

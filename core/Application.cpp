@@ -9,12 +9,15 @@
 
 #include <cstdio>
 
+#include "res/ResourceManager.h"
+#include "res/ImageLoader.h"
 #include "render/Render_GLES.h"
 #include "SDL.h"
 
 Application::Application()
 {
-
+    //for init
+    ResourceManager::GetSingleton().AddLoader(memnew(ImageLoader));
 }
 
 Application::~Application()
@@ -22,7 +25,7 @@ Application::~Application()
 
 }
 
-void Application::Run(int argc, char *argv[])
+int Application::Run(int argc, char *argv[])
 {
 	Render_GLES::getSingleton().Init();
 
@@ -51,4 +54,6 @@ void Application::Run(int argc, char *argv[])
 
 		Render_GLES::getSingleton().EndDraw();
 	}
+
+    return 0;
 }

@@ -2,7 +2,7 @@
 #define Math_MATRIX_STACK
 
 #include <stack>
-#include "core/Math.h"
+#include "core/MathUtility.h"
 
 template<class MAT, class VEC>
 class MatrixStack

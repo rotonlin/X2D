@@ -34,6 +34,10 @@ public:
 		{
 			_iRefCount--;
 		}
+        else
+        {
+            return false;
+        }
 
 		return _iRefCount <= 0;//die
 	}

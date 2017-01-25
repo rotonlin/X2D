@@ -18,7 +18,7 @@ public:
 	Application();
     virtual ~Application();
 
-	void Run(int argc, char *argv[]);
+	int Run(int argc, char *argv[]);
 };
 
 #endif /* Application_h */

@@ -10,26 +10,25 @@
 #define ResourceManager_h
 
 #include "core/Macros.h"
-#include "Ref.h"
+#include "res/Resource.h"
 
 class ResourceLoader : public Reference
 {
 public:
 	virtual bool Detect(const std::string& fileName) = 0;//file path
-	virtual bool Load(const std::string& fileName) = 0;
+	virtual Ref<Resource> Load(const std::string& fileName) = 0;
 };
 
 class ResourceManager
 {
 public:
 	static ResourceManager& GetSingleton();
-	
+
+    Ref<Resource> Load(const std::string& fileName);
+    void AddLoader(Ref<ResourceLoader> pLoader);
 private:
 	ResourceManager();
 	~ResourceManager();
-
-	void Load(const std::string& fileName);
-	void AddLoader(Ref<ResourceLoader> pLoader);
 
 	std::vector<Ref<ResourceLoader>> _loaders;
 

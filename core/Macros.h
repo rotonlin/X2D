@@ -6,9 +6,6 @@
 //  Copyright © 2017年 roton. All rights reserved.
 //
 
-#ifndef Macros_h
-#define Macros_h
-
 #include <string>
 #include <queue>
 #include <map>
@@ -40,10 +37,10 @@
 #ifdef _DEBUG
 #define _FORCE_INLINE_ inline
 #else
-#define _FORCE_INLINE_ _ALWAYS_INLINE_
+#define _FORCE_INLINE_ inline
 #endif
 #endif
 
 #define memnew(class_type) (new (std::nothrow) class_type)
 
-#endif /* Macros_h */
+#define memdelete(class_type) delete class_type

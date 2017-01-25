@@ -69,7 +69,7 @@ void Sprite::Draw()
 		}
 	}
 
-	math::GetMat4(cmd._mv, _transform);
+	MathUtility::GetMat4(cmd._mv, _transform);
 
 	Render_GLES::getSingleton().AddCommond(cmd);
 }

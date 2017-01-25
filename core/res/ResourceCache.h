@@ -17,12 +17,15 @@ class ResourceCache
 {
 public:
 	static ResourceCache& GetSingleton();
-
+    //path is key
+    void Remove(const std::string& rPath);
+    void Add(const std::string& rPath, Ref<Resource> pRes);
+    Ref<Resource> GetResource(const std::string& rPath);
 private:
 	ResourceCache();
 	~ResourceCache();
 
-	std::vector<Ref<Resource>> _cachedResource;
+    std::map<std::string, Ref<Resource>> _cachedResource;
 
 	static ResourceCache* _gInstance;
 };

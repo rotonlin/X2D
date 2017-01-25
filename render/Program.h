@@ -11,7 +11,13 @@
 
 #include "core/Macros.h"
 #include "core/Ref.h"
+
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h>
+#else
 #include <GL/glew.h>  
+#endif
 
 class Program : public Reference
 {
