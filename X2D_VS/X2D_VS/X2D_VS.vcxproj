@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath);..\..\core;..\..\..\X2D;..\..\third_partys\sdl\include;..\..\third_partys\glew\include</IncludePath>
+    <IncludePath>$(IncludePath);..\..\core;..\..\..\X2D;..\..\third_partys\sdl\include;..\..\third_partys\glew\include;..\..\third_partys\zlib;..\..\third_partys\libpng</IncludePath>
     <LibraryPath>..\..\third_partys\sdl\lib\win32\debug;..\..\third_partys\glew\lib\win32\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -89,7 +89,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
@@ -153,15 +153,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\core\Application.cpp" />
+    <ClCompile Include="..\..\core\io\FileReader.cpp" />
     <ClCompile Include="..\..\core\node\Node.cpp" />
     <ClCompile Include="..\..\core\node\Scene.cpp" />
     <ClCompile Include="..\..\core\node\Sprite.cpp" />
     <ClCompile Include="..\..\core\Object.cpp" />
+    <ClCompile Include="..\..\core\res\Image.cpp" />
+    <ClCompile Include="..\..\core\res\Resource.cpp" />
+    <ClCompile Include="..\..\core\res\ResourceCache.cpp" />
+    <ClCompile Include="..\..\core\res\ResourceManager.cpp" />
+    <ClCompile Include="..\..\core\res\Texture.cpp" />
+    <ClCompile Include="..\..\core\res\TextureLoader.cpp" />
     <ClCompile Include="..\..\render\Program.cpp" />
     <ClCompile Include="..\..\render\Render_GLES.cpp" />
+    <ClCompile Include="..\..\third_partys\libpng\png.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngerror.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngget.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngmem.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngpread.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngread.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngrio.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngrtran.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngrutil.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngset.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngtrans.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngwio.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngwrite.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngwtran.c" />
+    <ClCompile Include="..\..\third_partys\libpng\pngwutil.c" />
+    <ClCompile Include="..\..\third_partys\zlib\adler32.c" />
+    <ClCompile Include="..\..\third_partys\zlib\compress.c" />
+    <ClCompile Include="..\..\third_partys\zlib\crc32.c" />
+    <ClCompile Include="..\..\third_partys\zlib\deflate.c" />
+    <ClCompile Include="..\..\third_partys\zlib\infback.c" />
+    <ClCompile Include="..\..\third_partys\zlib\inffast.c" />
+    <ClCompile Include="..\..\third_partys\zlib\inflate.c" />
+    <ClCompile Include="..\..\third_partys\zlib\inftrees.c" />
+    <ClCompile Include="..\..\third_partys\zlib\trees.c" />
+    <ClCompile Include="..\..\third_partys\zlib\uncompr.c" />
+    <ClCompile Include="..\..\third_partys\zlib\zutil.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\core\Application.h" />
+    <ClInclude Include="..\..\core\io\FileReader.h" />
     <ClInclude Include="..\..\core\Macros.h" />
     <ClInclude Include="..\..\core\Math.h" />
     <ClInclude Include="..\..\core\mathfu\constants.h" />
@@ -183,6 +219,12 @@
     <ClInclude Include="..\..\core\node\Sprite.h" />
     <ClInclude Include="..\..\core\Object.h" />
     <ClInclude Include="..\..\core\Ref.h" />
+    <ClInclude Include="..\..\core\res\Image.h" />
+    <ClInclude Include="..\..\core\res\Resource.h" />
+    <ClInclude Include="..\..\core\res\ResourceCache.h" />
+    <ClInclude Include="..\..\core\res\ResourceManager.h" />
+    <ClInclude Include="..\..\core\res\Texture.h" />
+    <ClInclude Include="..\..\core\res\TextureLoader.h" />
     <ClInclude Include="..\..\core\vectorial\config.h" />
     <ClInclude Include="..\..\core\vectorial\mat4f.h" />
     <ClInclude Include="..\..\core\vectorial\simd2f.h" />
@@ -212,6 +254,13 @@
     <ClInclude Include="..\..\third_partys\glew\include\GL\glew.h" />
     <ClInclude Include="..\..\third_partys\glew\include\GL\glxew.h" />
     <ClInclude Include="..\..\third_partys\glew\include\GL\wglew.h" />
+    <ClInclude Include="..\..\third_partys\libpng\png.h" />
+    <ClInclude Include="..\..\third_partys\libpng\pngconf.h" />
+    <ClInclude Include="..\..\third_partys\libpng\pngdebug.h" />
+    <ClInclude Include="..\..\third_partys\libpng\pnginfo.h" />
+    <ClInclude Include="..\..\third_partys\libpng\pnglibconf.h" />
+    <ClInclude Include="..\..\third_partys\libpng\pngpriv.h" />
+    <ClInclude Include="..\..\third_partys\libpng\pngstruct.h" />
     <ClInclude Include="..\..\third_partys\sdl\include\begin_code.h" />
     <ClInclude Include="..\..\third_partys\sdl\include\close_code.h" />
     <ClInclude Include="..\..\third_partys\sdl\include\SDL.h" />
@@ -282,6 +331,16 @@
     <ClInclude Include="..\..\third_partys\sdl\include\SDL_types.h" />
     <ClInclude Include="..\..\third_partys\sdl\include\SDL_version.h" />
     <ClInclude Include="..\..\third_partys\sdl\include\SDL_video.h" />
+    <ClInclude Include="..\..\third_partys\zlib\crc32.h" />
+    <ClInclude Include="..\..\third_partys\zlib\deflate.h" />
+    <ClInclude Include="..\..\third_partys\zlib\inffast.h" />
+    <ClInclude Include="..\..\third_partys\zlib\inffixed.h" />
+    <ClInclude Include="..\..\third_partys\zlib\inflate.h" />
+    <ClInclude Include="..\..\third_partys\zlib\inftrees.h" />
+    <ClInclude Include="..\..\third_partys\zlib\trees.h" />
+    <ClInclude Include="..\..\third_partys\zlib\zconf.h" />
+    <ClInclude Include="..\..\third_partys\zlib\zlib.h" />
+    <ClInclude Include="..\..\third_partys\zlib\zutil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

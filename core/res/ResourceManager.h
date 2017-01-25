@@ -6,28 +6,34 @@
 //  Copyright © 2017年 roton. All rights reserved.
 //
 
-#ifndef Program_h
-#define Program_h
+#ifndef ResourceManager_h
+#define ResourceManager_h
 
 #include "core/Macros.h"
-#include "core/Ref.h"
-#include <GL/glew.h>  
+#include "Ref.h"
 
-class Program : public Reference
+class ResourceLoader : public Reference
 {
 public:
-	Program();
-    ~Program();
-	void Init(const std::string& vs, const std::string& fs);
-	GLint GetUniformLocation(const std::string& uniformName);
-	void UseProgram();
-private:
-	GLuint LoadShader(GLenum type, const char *shaderSrc);
-	GLuint LoadProgram(const char *vertShaderSrc, const char *fragShaderSrc);
-
-	std::string _vertexSource;
-	std::string _fragmentSource;
-	GLuint _programObject;
+	virtual bool Detect(const std::string& fileName) = 0;//file path
+	virtual bool Load(const std::string& fileName) = 0;
 };
 
-#endif /* Object_h */
+class ResourceManager
+{
+public:
+	static ResourceManager& GetSingleton();
+	
+private:
+	ResourceManager();
+	~ResourceManager();
+
+	void Load(const std::string& fileName);
+	void AddLoader(Ref<ResourceLoader> pLoader);
+
+	std::vector<Ref<ResourceLoader>> _loaders;
+
+	static ResourceManager* _gInstance;
+};
+
+#endif /* ResourceManager_h */

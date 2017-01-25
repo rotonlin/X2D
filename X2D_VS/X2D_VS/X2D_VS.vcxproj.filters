@@ -38,6 +38,24 @@
     <Filter Include="main\examples">
       <UniqueIdentifier>{abf4f922-601a-4b1a-8247-3433389e08af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="core\io">
+      <UniqueIdentifier>{539c7548-7a62-4a21-b423-f1a7d989bb04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\res">
+      <UniqueIdentifier>{0cd24ba9-5cbf-4095-aa0f-611bdc099ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\animation">
+      <UniqueIdentifier>{15cd4374-03f4-4628-b290-043691f9b166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\net">
+      <UniqueIdentifier>{0df86643-2cc7-409b-a672-00df5b5f5cc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_partys\libpng">
+      <UniqueIdentifier>{1e0ed750-5174-4626-8165-0c4e6220f335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_partys\zlib">
+      <UniqueIdentifier>{6a4771df-f291-47c2-9802-50ee803275bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,6 +78,108 @@
     </ClCompile>
     <ClCompile Include="..\..\render\Program.cpp">
       <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\png.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngerror.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngget.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngmem.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngpread.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngread.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngrio.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngrtran.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngrutil.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngset.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngtrans.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngwio.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngwrite.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngwtran.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\libpng\pngwutil.c">
+      <Filter>third_partys\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\adler32.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\compress.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\crc32.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\deflate.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\infback.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\inffast.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\inflate.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\inftrees.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\trees.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\uncompr.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_partys\zlib\zutil.c">
+      <Filter>third_partys\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\res\Image.cpp">
+      <Filter>core\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\res\Resource.cpp">
+      <Filter>core\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\res\ResourceCache.cpp">
+      <Filter>core\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\res\ResourceManager.cpp">
+      <Filter>core\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\res\Texture.cpp">
+      <Filter>core\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\res\TextureLoader.cpp">
+      <Filter>core\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\io\FileReader.cpp">
+      <Filter>core\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\core\Application.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -422,6 +542,81 @@
     </ClInclude>
     <ClInclude Include="..\..\render\Program.h">
       <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\libpng\png.h">
+      <Filter>third_partys\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\libpng\pngconf.h">
+      <Filter>third_partys\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\libpng\pngdebug.h">
+      <Filter>third_partys\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\libpng\pnginfo.h">
+      <Filter>third_partys\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\libpng\pnglibconf.h">
+      <Filter>third_partys\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\libpng\pngpriv.h">
+      <Filter>third_partys\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\libpng\pngstruct.h">
+      <Filter>third_partys\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\crc32.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\deflate.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\inffast.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\inffixed.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\inflate.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\inftrees.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\trees.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\zconf.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\zlib.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_partys\zlib\zutil.h">
+      <Filter>third_partys\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\res\Image.h">
+      <Filter>core\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\res\Resource.h">
+      <Filter>core\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\res\ResourceCache.h">
+      <Filter>core\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\res\ResourceManager.h">
+      <Filter>core\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\res\Texture.h">
+      <Filter>core\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\res\TextureLoader.h">
+      <Filter>core\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\io\FileReader.h">
+      <Filter>core\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\core\Application.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
