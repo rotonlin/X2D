@@ -10,13 +10,28 @@
 #define Texture_h
 
 #include "core/Macros.h"
-#include "core/Ref.h"
+#include "res/Resource.h"
 
-class Texture : public Reference
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h>
+#else
+#include <GL/glew.h>
+#endif
+
+class Image;
+
+class Texture : public Resource
 {
 public:
-	Texture();
+    Texture(Image* pImage);
+    Texture() : _iTexture(0) {}
     ~Texture();
+
+    _FORCE_INLINE_ GLuint TID() const { return _iTexture; }
+
+private:
+    GLuint _iTexture;
 };
 
 #endif /* Texture_h */

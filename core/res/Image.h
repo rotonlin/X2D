@@ -12,6 +12,8 @@
 #include "core/Macros.h"
 #include "res/Resource.h"
 
+class Texture;
+
 class Image : public Resource
 {
 public:
@@ -28,8 +30,13 @@ public:
         FORMAT_INDEXED,
     };
 
+    Ref<Texture> CreateTexture();
+
     _FORCE_INLINE_ void Set(int iWidth, int iHeight, Format eFormat) {_iHeight = iHeight, _iWidth = iWidth; _eFormat = eFormat;}
     _FORCE_INLINE_ std::vector<uint8_t>& WritableBuffer() {return _pBuffer;}
+    _FORCE_INLINE_ int Height() const { return _iHeight; }
+    _FORCE_INLINE_ int Width() const { return _iWidth; }
+    _FORCE_INLINE_ const uint8_t* Data() const { return &_pBuffer[0];}
 private:
     int _iHeight;
     int _iWidth;

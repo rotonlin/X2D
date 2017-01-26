@@ -9,6 +9,7 @@
 #include "node/Sprite.h"
 #include "render/Render_GLES.h"
 #include "Math.h"
+#include "res/ResourceManager.h"
 
 Sprite::Sprite()
 {
@@ -18,6 +19,17 @@ Sprite::Sprite()
 Sprite::~Sprite()
 {
 
+}
+
+void Sprite::SetImage(const std::string &rFilePath)
+{
+    Ref<Image> pImage = ResourceManager::GetSingleton().Load(rFilePath);
+    SetImage(pImage);
+}
+
+void Sprite::SetImage(Ref<Image> pImage)
+{
+    _pTexture = pImage->CreateTexture();
 }
 
 void Sprite::Draw()
@@ -39,18 +51,26 @@ void Sprite::Draw()
 	//const Sizef& scaleSize = ScaledSize();
 	vert.position.x() = 0;
 	vert.position.y() = 0;
+    vert.uv.x() = 0;
+    vert.uv.y() = 0;
 	cmd._vert.push_back(vert);
 
 	vert.position.x() = _size._width;
 	vert.position.y() = 0;
+    vert.uv.x() = 1.0f;
+    vert.uv.y() = 0;
 	cmd._vert.push_back(vert);
 
 	vert.position.x() = 0;
 	vert.position.y() = _size._height;
+    vert.uv.x() = 0;
+    vert.uv.y() = 1.0f;
 	cmd._vert.push_back(vert);
 
 	vert.position.x() = _size._width;
 	vert.position.y() = _size._height;
+    vert.uv.x() = 1.0f;
+    vert.uv.y() = 1.0f;
 	cmd._vert.push_back(vert);
 
 	//make indices
@@ -58,6 +78,11 @@ void Sprite::Draw()
 	cmd._indices.reserve(6);
 	cmd._indices.assign(indices, indices + 6);
 	cmd._iElementCount = 6;
+
+    if (_pTexture.ptr())
+    {
+        cmd._texId = _pTexture->TID();
+    }
 
 	if (_bClipByParent)
 	{

@@ -67,7 +67,6 @@ private:
 	GLuint _vbos[MAX];
 	GLuint _projectionLocation;
 	GLuint _modelViewLocation;
-    GLuint _textureId;
 
 	Ref<Program> _program;
 

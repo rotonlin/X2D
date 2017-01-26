@@ -14,6 +14,7 @@
 //test
 #include "res/ResourceManager.h"
 #include "res/Image.h"
+#include "res/Texture.h"
 
 //--------------------------------------------------------------------
 static MatrixStack<mathfu::mat3, mathfu::vec2> gMatrixStack;
@@ -98,11 +99,11 @@ bool Render_GLES::Init()
 		"precision mediump float;	\n"
 		"uniform sampler2D Texture;	\n"
 		"in vec4 v_color;           \n"
-		"in vec4 v_uv;				\n"
+		"in vec2 v_uv;				\n"
 		"out vec4 o_fragColor;      \n"
 		"void main()                \n"
 		"{                          \n"
-		"    o_fragColor = v_color; \n"
+		"    o_fragColor = texture(Texture, v_uv) * v_color; \n"
 		"}";
 
 	_program = memnew(Program);
@@ -125,12 +126,7 @@ bool Render_GLES::Init()
 	//pointer data offsets
 	glVertexAttribPointer(VERTEX, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 	glVertexAttribPointer(COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-	glVertexAttribPointer(UV, 2, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-
-	//texture creation
-    Ref<Image> pImage = ResourceManager::GetSingleton().Load("/Users/roton/Desktop/AllM3Code/X2D/examples/image.png");
-    glGenTextures(1, &_textureId);
-    glBindTexture(GL_TEXTURE_2D, _textureId);
+	glVertexAttribPointer(UV, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 
 	// Restore modified GL state
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -182,6 +178,7 @@ void Render_GLES::DrawScene()
 	DrawNode(_pRootScene);
 	gMatrixStack.PopMatrix();
 
+    //begin draw
 	Clear();
 	glViewport(0, 0, fb_width, fb_height);
 
@@ -193,15 +190,13 @@ void Render_GLES::DrawScene()
 
 	//scissor test
 	//glEnable(GL_SCISSOR_TEST);
-	//active texture
-	//glActiveTexture(GL_TEXTURE0);
 
 	_program->UseProgram();
 
 	glBindVertexArray(_vao);
 
 	//render scene
-	for (int i = 0, n = _renderCommonds.size(); i < n; ++i)
+	for (size_t i = 0, n = _renderCommonds.size(); i < n; ++i)
 	{
 		const RenderCommond& commond = _renderCommonds[i];
 
@@ -210,21 +205,25 @@ void Render_GLES::DrawScene()
 		glUniformMatrix4fv(_projectionLocation, 1, GL_FALSE, (const GLfloat*)&OrthoMat);
 		glUniformMatrix4fv(_modelViewLocation, 1, GL_FALSE, (const GLfloat*)&commond._mv);
 
-
 		glBindBuffer(GL_ARRAY_BUFFER, _vbos[VERTEX]);
 		glBufferData(GL_ARRAY_BUFFER, commond._vert.size() * sizeof(Vertex), &commond._vert[0], GL_DYNAMIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vbos[INDICES]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, commond._indices.size() * sizeof(uint16_t), &commond._indices[0], GL_DYNAMIC_DRAW);
 
-		//glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-		glScissor(
-			commond._clipRec._origin.x(), 
-			commond._clipRec._origin.y(),
-			commond._clipRec._size._width,
-			commond._clipRec._size._height);
+		if(commond._texId)
+            glBindTexture(GL_TEXTURE_2D, commond._texId);
+
+		//glScissor(
+		//	commond._clipRec._origin.x(),
+		//	commond._clipRec._origin.y(),
+		//	commond._clipRec._size._width,
+		//	commond._clipRec._size._height);
 
 		glDrawElements(GL_TRIANGLES, commond._iElementCount, GL_UNSIGNED_SHORT, 0);
+
+        if(commond._texId)
+            glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	//clean
@@ -285,23 +284,27 @@ void Render_GLES::BegainDraw()
 			Ref<Sprite> pSprite = memnew(Sprite);
 			pSprite->SetPosition(mathfu::vec2(250, 150));
 			pSprite->SetSize(Sizef(300.0f, 300.0f));
-			pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
-			pSprite->SetRotation(M_PI / 4);
+			//pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
+			//pSprite->SetRotation(M_PI / 4);
 			_pRootScene->AddChild(pSprite);
+
+            Ref<Image> pImage = ResourceManager::GetSingleton().Load("/Users/roton/Desktop/AllM3Code/X2D/examples/image.png");
 
 			Ref<Sprite> pSprite1 = memnew(Sprite);
 			pSprite1->SetPosition(pSprite->Center());
 			pSprite1->SetSize(Sizef(100.0f, 100.0f));
-			pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
-			pSprite1->SetRotation(-M_PI / 4);
-			pSprite1->SetScale(1.2);
+            pSprite1->SetImage(pImage);
+			//pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
+			//pSprite1->SetRotation(-M_PI / 4);
+			//pSprite1->SetScale(1.2);
 			pSprite->AddChild(pSprite1);
 
 			Ref<Sprite> pSprite2 = memnew(Sprite);
 			pSprite2->SetPosition(pSprite1->Center());
 			pSprite2->SetSize(Sizef(50.0f, 50.0f));
-			pSprite2->SetColor(mathfu::vec4(0.2, 0.3, 0.2, 1));
-			pSprite2->SetRotation(M_PI / 4);
+            pSprite2->SetImage("/Users/roton/Desktop/AllM3Code/X2D/examples/image.png");
+			//pSprite2->SetColor(mathfu::vec4(0.2, 0.3, 0.2, 1));
+			//pSprite2->SetRotation(M_PI / 4);
 			//pSprite2->Hide();
 			pSprite1->AddChild(pSprite2);
 

@@ -12,6 +12,13 @@
 #include "Macros.h"
 #include "Math.h"
 
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h>
+#else
+#include <GL/glew.h>
+#endif
+
 struct RenderCommond
 {
 	enum CommondType
@@ -21,7 +28,7 @@ struct RenderCommond
 		LINE,
 	};
 
-	RenderCommond() : _cmdId(0), _eType(NULL_TYPE)
+	RenderCommond() : _cmdId(0), _eType(NULL_TYPE), _texId(0)
 	{
 
 	}
@@ -39,6 +46,9 @@ struct RenderCommond
 
 	//transform
 	mathfu::mat4 _mv;
+
+    //tex
+    GLuint _texId;
 };
 
 #endif /* RenderCommond_h */
