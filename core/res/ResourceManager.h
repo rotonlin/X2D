@@ -12,6 +12,8 @@
 #include "core/Macros.h"
 #include "res/Resource.h"
 
+#define Load_Res(filename) ResourceManager::GetSingleton().Load(filename)
+
 class ResourceLoader : public Reference
 {
 public:

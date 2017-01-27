@@ -10,6 +10,7 @@
 #include "render/Render_GLES.h"
 #include "Math.h"
 #include "res/ResourceManager.h"
+#include "res/ResourceCache.h"
 
 Sprite::Sprite()
 {
@@ -21,15 +22,13 @@ Sprite::~Sprite()
 
 }
 
-void Sprite::SetImage(const std::string &rFilePath)
+void Sprite::SetTexture(const std::string &rFilePath)
 {
-    Ref<Image> pImage = ResourceManager::GetSingleton().Load(rFilePath);
-    SetImage(pImage);
-}
-
-void Sprite::SetImage(Ref<Image> pImage)
-{
-    _pTexture = pImage->CreateTexture();
+    Ref<Texture> pTex = ResourceCache::GetSingleton().GetResource(rFilePath);
+    if (pTex.ptr())
+    {
+        _pTexture = pTex;
+    }
 }
 
 void Sprite::Draw()
@@ -48,29 +47,45 @@ void Sprite::Draw()
 
 	vert.color = _color;
 
-	//const Sizef& scaleSize = ScaledSize();
+    if (_pTexture.ptr())
+    {
+        cmd._texId = _pTexture->TID();
+    }
+
 	vert.position.x() = 0;
 	vert.position.y() = 0;
-    vert.uv.x() = 0;
-    vert.uv.y() = 0;
+    if (_pTexture.ptr())
+    {
+        vert.uv.x() = _pTexture->GetSubRect()._origin.x() / _pTexture->GetRect()._size._width;
+        vert.uv.y() = _pTexture->GetSubRect()._origin.y() / _pTexture->GetRect()._size._height;
+    }
 	cmd._vert.push_back(vert);
 
 	vert.position.x() = _size._width;
 	vert.position.y() = 0;
-    vert.uv.x() = 1.0f;
-    vert.uv.y() = 0;
+    if (_pTexture.ptr())
+    {
+        vert.uv.x() = (_pTexture->GetSubRect()._origin.x() + _pTexture->GetSubRect()._size._width) / _pTexture->GetRect()._size._width;
+        vert.uv.y() = _pTexture->GetSubRect()._origin.y() / _pTexture->GetRect()._size._height;
+    }
 	cmd._vert.push_back(vert);
 
 	vert.position.x() = 0;
 	vert.position.y() = _size._height;
-    vert.uv.x() = 0;
-    vert.uv.y() = 1.0f;
+    if (_pTexture.ptr())
+    {
+        vert.uv.x() = _pTexture->GetSubRect()._origin.x() / _pTexture->GetRect()._size._width;
+        vert.uv.y() = (_pTexture->GetSubRect()._origin.y() + _pTexture->GetSubRect()._size._height) / _pTexture->GetRect()._size._height;
+    }
 	cmd._vert.push_back(vert);
 
 	vert.position.x() = _size._width;
 	vert.position.y() = _size._height;
-    vert.uv.x() = 1.0f;
-    vert.uv.y() = 1.0f;
+    if (_pTexture.ptr())
+    {
+        vert.uv.x() = (_pTexture->GetSubRect()._origin.x() + _pTexture->GetSubRect()._size._width) / _pTexture->GetRect()._size._width;
+        vert.uv.y() = (_pTexture->GetSubRect()._origin.y() + _pTexture->GetSubRect()._size._height) / _pTexture->GetRect()._size._height;
+    }
 	cmd._vert.push_back(vert);
 
 	//make indices
@@ -78,11 +93,6 @@ void Sprite::Draw()
 	cmd._indices.reserve(6);
 	cmd._indices.assign(indices, indices + 6);
 	cmd._iElementCount = 6;
-
-    if (_pTexture.ptr())
-    {
-        cmd._texId = _pTexture->TID();
-    }
 
 	if (_bClipByParent)
 	{

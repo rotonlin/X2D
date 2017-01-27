@@ -19,11 +19,10 @@ public:
 	Sprite();
     virtual ~Sprite();
 
-    _FORCE_INLINE_ void SetTexture(Ref<Texture> pTex) { _pTexture = pTex; }
+    _FORCE_INLINE_ void SetTexture(Ref<Texture> pTex) { _pTexture = pTex; };
     _FORCE_INLINE_ Ref<Texture> GetTexture() { return _pTexture; }
 
-    void SetImage(Ref<Image> pImage);
-    void SetImage(const std::string& rFilePath);
+    void SetTexture(const std::string& fileName);
 
 protected:
 	virtual void Draw();

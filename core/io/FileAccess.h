@@ -32,8 +32,13 @@ public:
     int Seek(size_t size, int seekType);
 
     size_t write(const char* buffer, size_t size);
+
+    size_t GetFileSize();
+
+    _FORCE_INLINE_ const std::string& GetPath() const { return _path; };
 private:
     FILE* f;
+    std::string _path;
 };
 
 #endif /*FileAccess_h */

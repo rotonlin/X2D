@@ -41,14 +41,13 @@ Ref<Resource> ResourceManager::Load(const std::string& fileName)
     }
 
 
-	for (int i = 0, l = _loaders.size(); i < l; ++i)
+	for (size_t i = 0, l = _loaders.size(); i < l; ++i)
 	{
 		if (_loaders[i]->Detect(fileName))
 		{
 			res = _loaders[i]->Load(fileName);
 			if (res.ptr())
 			{
-                res->SetPath(fileName);
                 return res;
 			}
 		}

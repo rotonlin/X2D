@@ -9,6 +9,10 @@
 #include "res/ImageLoader.h"
 #include "io/FileAccess.h"
 #include "res/Image.h"
+#include "res/Texture.h"
+#include "rapidjson/document.h"
+#include "rapidjson/prettywriter.h"
+#include "res/ResourceCache.h"
 
 static void _png_error_function(png_structp, png_const_charp text)
 {
@@ -40,7 +44,8 @@ void ImageLoader::ReadPngData(png_structp png_ptr,png_bytep data, png_size_t p_l
 
 bool ImageLoader::Detect(const std::string& fileName)
 {
-    if (fileName.rfind(".png") != std::string::npos)
+    if (fileName.rfind(".png") != std::string::npos
+        || fileName.rfind(".altlas") != std::string::npos)
     {
         return true;
     }
@@ -48,7 +53,97 @@ bool ImageLoader::Detect(const std::string& fileName)
 	return false;
 }
 
-Ref<Resource> ImageLoader::Load(const std::string& fileName)
+
+Ref<Resource> ImageLoader::Load(const std::string &fileName)
+{
+    if (fileName.rfind(".altlas") != std::string::npos)
+    {
+        return LoadAltlasTexture(fileName);
+    }
+
+    Ref<ImageTexture> pTex = ResourceCache::GetSingleton().GetResource(fileName);
+    if (pTex.ptr())
+    {
+        return pTex;
+    }
+
+    Ref<Image> pImage = LoadImage(fileName);
+    pTex = pImage->CreateTexture();
+    pTex->SetPath(fileName);
+    return pTex;
+}
+
+//load altlas
+Ref<Resource> ImageLoader::LoadAltlasTexture(const std::string &fileName)
+{
+    //check cache
+    size_t index = fileName.rfind(".");
+
+    std::string imagePath = fileName.substr(0, index) + ".png";
+
+    Ref<AltlasTesture> pTex = ResourceCache::GetSingleton().GetResource(imagePath);
+    if (pTex.ptr())
+    {
+        return pTex;
+    }
+
+    //if texture not in cache,  load texture
+    Ref<Image> pImage = LoadImage(imagePath);
+    pTex = pImage->CreateAltlaTexture();
+    pTex->SetPath(imagePath);
+
+    Ref<FileAccess> fileReader = memnew(FileAccess(fileName.c_str(), "rb"));
+
+    std::string jsonFile;
+
+    size_t fileSize =fileReader->GetFileSize();
+    char * jsonBuffer = memnew_arr(char, fileSize + 1);
+    fileReader->Read(jsonBuffer, fileSize);
+    jsonBuffer[fileSize] = 0;
+
+    rapidjson::Document document;
+    if(document.Parse(jsonBuffer).HasParseError())
+    {
+        memdelete_arr(jsonBuffer);
+        return nullptr;
+    }
+
+    if (document.HasMember("meta"))
+    {
+        rapidjson::Value& meta = document["meta"];
+        if (meta.HasMember("image"))
+        {
+            //create altlas by texture
+            if (document.HasMember("frames"))
+            {
+                const rapidjson::Value& frames = document["frames"];
+                for (int i = 0, l = frames.Size(); i < l; ++i)
+                {
+                    const rapidjson::Value& frm = frames[i]["frame"];
+                    Rectf subRec(frm["x"].GetFloat(), frm["y"].GetFloat(), frm["w"].GetFloat(), frm["h"].GetFloat());
+                    Ref<Altlas> pAltla = memnew(Altlas);
+                    pAltla->Init(pTex->GetRect(), subRec);
+                    pAltla->SetTID(pTex->TID());
+
+                    std::string imagesetName = meta["image"].GetString();
+                    imagesetName = imagesetName.substr(0, imagesetName.length() - 4);
+
+                    std::string altlasName = imagesetName + "/" + frames[i]["filename"].GetString();
+                    pAltla->SetPath(altlasName);
+                    pTex->AddAltla(altlasName, pAltla);
+                }
+            }
+            memdelete_arr(jsonBuffer);
+
+            return pTex;
+        }
+    }
+
+    memdelete_arr(jsonBuffer);
+    return nullptr;
+}
+
+Ref<Resource> ImageLoader::LoadImage(const std::string& fileName)
 {
     Ref<FileAccess> fileReader = memnew(FileAccess(fileName.c_str(), "rb"));
 
@@ -163,7 +258,7 @@ Ref<Resource> ImageLoader::Load(const std::string& fileName)
     int rowsize = components * width;
 
     Ref<Image> pImage = memnew(Image);
-    pImage->Set(width, height, fmt);
+    pImage->Set(width, height, fmt, components);
     std::vector<uint8_t>& dstbuff = pImage->WritableBuffer();
 
     dstbuff.resize(rowsize * height + palette_components * 256);

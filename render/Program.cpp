@@ -133,6 +133,8 @@ GLuint Program::LoadProgram(const char *vertShaderSrc, const char *fragShaderSrc
 
 void Program::Init(const std::string& vs, const std::string& fs)
 {
+    
+
 	_programObject = LoadProgram(vs.c_str(), fs.c_str());
 }
 

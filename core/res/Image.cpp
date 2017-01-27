@@ -17,17 +17,19 @@ Image::Image()
 
 Image::~Image()
 {
-
+    
 }
 
 Ref<Texture> Image::CreateTexture()
 {
-    std::string texPath = Path() + ".texture";
-    Ref<Texture> pTex = ResourceCache::GetSingleton().GetResource(texPath);
-    if (!pTex.ptr())
-    {
-        pTex = memnew(Texture(this));
-        pTex->SetPath(texPath);
-    }
+    Ref<ImageTexture> pTex = memnew(ImageTexture(this));
+
+    return pTex;
+}
+
+Ref<Texture> Image::CreateAltlaTexture()
+{
+    Ref<AltlasTesture> pTex = memnew(AltlasTesture(this));
+
     return pTex;
 }

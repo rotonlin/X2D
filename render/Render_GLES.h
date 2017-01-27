@@ -72,6 +72,8 @@ private:
 
 	Ref<Scene> _pRootScene;
 
+    Ref<Resource> _pTex;
+
 	std::vector<RenderCommond> _renderCommonds;
 
 	Sizef _winSize;

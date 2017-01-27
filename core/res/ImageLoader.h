@@ -22,6 +22,9 @@ public:
 
 	virtual bool Detect(const std::string& fileName);
 	virtual Ref<Resource> Load(const std::string& fileName);
+protected:
+    Ref<Resource> LoadImage(const std::string& fileName);
+    Ref<Resource> LoadAltlasTexture(const std::string& fileName);
 
 private:
     static void ReadPngData(png_structp png_ptr,png_bytep data,png_size_t p_length);

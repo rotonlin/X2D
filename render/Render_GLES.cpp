@@ -10,7 +10,7 @@
 #include "SDL.h"
 #include "render/MatrixStack.h"
 #include "render/Program.h"
-
+#include "render/Shaders.h"
 //test
 #include "res/ResourceManager.h"
 #include "res/Image.h"
@@ -75,36 +75,6 @@ bool Render_GLES::Init()
         return false;
     }
 #endif
-
-	const char vShaderStr[] =
-		"#version 330                               \n"
-		"precision mediump float;					\n"
-		"layout(location = 0) in vec2 a_position;   \n"
-		"layout(location = 1) in vec4 a_color;      \n"
-		"layout(location = 2) in vec2 uv;			\n"
-		"uniform mat4 perspective;					\n"
-		"uniform mat4 modelview;					\n"
-		"out vec4 v_color;                          \n"
-		"out vec2 v_uv;								\n"
-		"void main()                                \n"
-		"{                                          \n"
-		"    v_color = a_color;                     \n"
-		"    v_uv = uv;										\n"
-		"    gl_Position = perspective * modelview * vec4(a_position, 0, 1);	\n"
-		"}";
-
-
-	const char fShaderStr[] =
-		"#version 330               \n"
-		"precision mediump float;	\n"
-		"uniform sampler2D Texture;	\n"
-		"in vec4 v_color;           \n"
-		"in vec2 v_uv;				\n"
-		"out vec4 o_fragColor;      \n"
-		"void main()                \n"
-		"{                          \n"
-		"    o_fragColor = texture(Texture, v_uv) * v_color; \n"
-		"}";
 
 	_program = memnew(Program);
 	_program->Init(vShaderStr, fShaderStr);
@@ -281,32 +251,34 @@ void Render_GLES::BegainDraw()
 		_pRootScene->SetSize(_winSize);
 		_pRootScene->SetPosition(mathfu::vec2(0, 0));
 		{
+
+            _pTex = Load_Res("/Users/roton/Desktop/AllM3Code/X2D/examples/images/heros.altlas");
+
 			Ref<Sprite> pSprite = memnew(Sprite);
 			pSprite->SetPosition(mathfu::vec2(250, 150));
 			pSprite->SetSize(Sizef(300.0f, 300.0f));
 			//pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
-			//pSprite->SetRotation(M_PI / 4);
+			//pSprite->SetRotation(-M_PI / 3);
+            pSprite->SetTexture("heros/zhaoyun.png");
 			_pRootScene->AddChild(pSprite);
-
-            Ref<Image> pImage = ResourceManager::GetSingleton().Load("/Users/roton/Desktop/AllM3Code/X2D/examples/image.png");
 
 			Ref<Sprite> pSprite1 = memnew(Sprite);
 			pSprite1->SetPosition(pSprite->Center());
 			pSprite1->SetSize(Sizef(100.0f, 100.0f));
-            pSprite1->SetImage(pImage);
+            pSprite1->SetTexture("heros/test/anqila.png");
 			//pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
 			//pSprite1->SetRotation(-M_PI / 4);
 			//pSprite1->SetScale(1.2);
 			pSprite->AddChild(pSprite1);
 
-			Ref<Sprite> pSprite2 = memnew(Sprite);
-			pSprite2->SetPosition(pSprite1->Center());
-			pSprite2->SetSize(Sizef(50.0f, 50.0f));
-            pSprite2->SetImage("/Users/roton/Desktop/AllM3Code/X2D/examples/image.png");
+			//Ref<Sprite> pSprite2 = memnew(Sprite);
+			//pSprite2->SetPosition(pSprite1->Center());
+			//pSprite2->SetSize(Sizef(50.0f, 50.0f));
+            //pSprite2->SetImage("/Users/roton/Desktop/AllM3Code/X2D/examples/images/image.png");
 			//pSprite2->SetColor(mathfu::vec4(0.2, 0.3, 0.2, 1));
 			//pSprite2->SetRotation(M_PI / 4);
 			//pSprite2->Hide();
-			pSprite1->AddChild(pSprite2);
+			//pSprite1->AddChild(pSprite2);
 
 		}
 
