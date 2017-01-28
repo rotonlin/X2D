@@ -7,13 +7,10 @@
 //
 
 #include "node/Scene.h"
-#include "render/Render_GLES.h"
 
 Scene::Scene()
 {
-	_position.x() = 0;
-	_position.y() = 0;
-	_size = Render_GLES::getSingleton().GetWinSize();
+
 }
 
 Scene::~Scene()
@@ -23,5 +20,15 @@ Scene::~Scene()
 
 void Scene::Update(float fDelta)
 {
-	_size = Render_GLES::getSingleton().GetWinSize();
+
+}
+
+void Scene::Init()
+{
+
+}
+
+void Scene::DeInit()
+{
+
 }

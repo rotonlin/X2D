@@ -11,10 +11,6 @@
 #include "render/MatrixStack.h"
 #include "render/Program.h"
 #include "render/Shaders.h"
-//test
-#include "res/ResourceManager.h"
-#include "res/Image.h"
-#include "res/Texture.h"
 
 //--------------------------------------------------------------------
 static MatrixStack<mathfu::mat3, mathfu::vec2> gMatrixStack;
@@ -51,8 +47,8 @@ bool Render_GLES::Init()
 	pWindow = SDL_CreateWindow("test",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		800,
-		600,
+		1136,
+		640,
 		SDL_WINDOW_OPENGL);
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -66,6 +62,15 @@ bool Render_GLES::Init()
 
 	pContext = SDL_GL_CreateContext(pWindow);
 
+
+    int w, h;
+    int display_w, display_h;
+    SDL_GetWindowSize(pWindow, &w, &h);
+    SDL_GL_GetDrawableSize(pWindow, &display_w, &display_h);
+    _winSize._width = w;
+    _winSize._height = h;
+    _displayFramebufferScale = mathfu::vec2(_winSize._width > 0 ? ((float)display_w / w) : 0,
+                                            h > 0 ? ((float)display_h / h) : 0);
 
 #ifdef _WIN32
     // Initialize GLEW to setup the OpenGL Function pointers
@@ -132,7 +137,7 @@ void Render_GLES::Clear()
 	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void Render_GLES::DrawScene()
+void Render_GLES::DrawScene(Ref<Scene> pScene)
 {
 	int fb_width = (int)(_winSize._width * _displayFramebufferScale.x());
 	int fb_height = (int)(_winSize._height * _displayFramebufferScale.y());
@@ -145,7 +150,7 @@ void Render_GLES::DrawScene()
 	_renderCommonds.clear();
 
 	gMatrixStack.PushMatrix();
-	DrawNode(_pRootScene);
+	DrawNode(pScene);
 	gMatrixStack.PopMatrix();
 
     //begin draw
@@ -236,53 +241,7 @@ void Render_GLES::AddCommond(const RenderCommond& rCommond)
 
 void Render_GLES::BegainDraw()
 {
-	int w, h;
-	int display_w, display_h;
-	SDL_GetWindowSize(pWindow, &w, &h);
-	SDL_GL_GetDrawableSize(pWindow, &display_w, &display_h);
-	_winSize._width = w;
-	_winSize._height = h;
-	_displayFramebufferScale = mathfu::vec2(_winSize._width > 0 ? ((float)display_w / w) : 0,
-		h > 0 ? ((float)display_h / h) : 0);
 
-	if (_pRootScene == nullptr)
-	{
-		_pRootScene = memnew(Scene);
-		_pRootScene->SetSize(_winSize);
-		_pRootScene->SetPosition(mathfu::vec2(0, 0));
-		{
-
-            _pTex = Load_Res("/Users/roton/Desktop/AllM3Code/X2D/examples/images/heros.altlas");
-
-			Ref<Sprite> pSprite = memnew(Sprite);
-			pSprite->SetPosition(mathfu::vec2(250, 150));
-			pSprite->SetSize(Sizef(300.0f, 300.0f));
-			//pSprite->SetColor(mathfu::vec4(0.5, 0.5, 0.2, 1));
-			//pSprite->SetRotation(-M_PI / 3);
-            pSprite->SetTexture("heros/zhaoyun.png");
-			_pRootScene->AddChild(pSprite);
-
-			Ref<Sprite> pSprite1 = memnew(Sprite);
-			pSprite1->SetPosition(pSprite->Center());
-			pSprite1->SetSize(Sizef(100.0f, 100.0f));
-            pSprite1->SetTexture("heros/test/anqila.png");
-			//pSprite1->SetColor(mathfu::vec4(0.7, 0.3, 0.2, 1));
-			//pSprite1->SetRotation(-M_PI / 4);
-			//pSprite1->SetScale(1.2);
-			pSprite->AddChild(pSprite1);
-
-			//Ref<Sprite> pSprite2 = memnew(Sprite);
-			//pSprite2->SetPosition(pSprite1->Center());
-			//pSprite2->SetSize(Sizef(50.0f, 50.0f));
-            //pSprite2->SetImage("/Users/roton/Desktop/AllM3Code/X2D/examples/images/image.png");
-			//pSprite2->SetColor(mathfu::vec4(0.2, 0.3, 0.2, 1));
-			//pSprite2->SetRotation(M_PI / 4);
-			//pSprite2->Hide();
-			//pSprite1->AddChild(pSprite2);
-
-		}
-
-	}
 }
 
 void Render_GLES::EndDraw()
@@ -290,10 +249,3 @@ void Render_GLES::EndDraw()
 	SDL_GL_SwapWindow(pWindow);
 }
 
-void Render_GLES::UpdateScene(float fDelta)
-{
-	if (_pRootScene != nullptr)
-	{
-		_pRootScene->Update(fDelta);
-	}
-}

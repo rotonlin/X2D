@@ -18,6 +18,8 @@ public:
     virtual ~Scene();
 
 	virtual void Update(float fDelta);
+    virtual void Init();
+    virtual void DeInit();
 };
 
 #endif /* Scene_h */

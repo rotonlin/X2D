@@ -18,8 +18,6 @@
 
 #include <vector>
 #include "core/node/Scene.h"
-#include "core/node/Sprite.h"
-#include "core/Ref.h"
 #include "render/RenderCommond.h"
 
 typedef void *SDL_GLContext;
@@ -38,14 +36,14 @@ public:
 	void EndDraw();
 	void UpdateScene(float fDelta);
 
-	void DrawScene();
+	void DrawScene(Ref<Scene> pScene);
 	void DrawTriangles();
 	void DrawSquare();
 
 	void AddCommond(const RenderCommond& rCommond);
 	//void DrawImGUILists(ImDrawData* draw_data);
 
-	_FORCE_INLINE_ const Sizef& GetWinSize() { return _winSize; }
+	_FORCE_INLINE_ const Sizef& GetWinSize() const { return _winSize; }
 private:
     Render_GLES();
     ~Render_GLES();
@@ -69,10 +67,6 @@ private:
 	GLuint _modelViewLocation;
 
 	Ref<Program> _program;
-
-	Ref<Scene> _pRootScene;
-
-    Ref<Resource> _pTex;
 
 	std::vector<RenderCommond> _renderCommonds;
 
