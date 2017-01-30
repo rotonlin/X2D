@@ -27,7 +27,7 @@ TestGameScene1::~TestGameScene1()
 
 void TestGameScene1::Update(float fDelta)
 {
-
+    printf("%f\n", fDelta);
 }
 
 void TestGameScene1::Init()
@@ -64,12 +64,17 @@ void TestGameScene1::Init()
     //pSprite1->AddChild(pSprite2);
 
 
-    TIMER(1.0, "update", true);
-
-
+    TIMER_UPDATA(TestGameScene1, this);
 }
 
 void TestGameScene1::DeInit()
 {
-    
+    TIMER_DELETE(this);
 }
+
+void TestGameScene1::TimerCallBack()
+{
+    printf("TimerCallBack\n");
+}
+
+

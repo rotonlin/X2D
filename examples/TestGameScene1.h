@@ -22,6 +22,8 @@ public:
     virtual void Init();
     virtual void DeInit();
 
+    void TimerCallBack();
+
 private:
     Ref<Resource> _pTex;
 };

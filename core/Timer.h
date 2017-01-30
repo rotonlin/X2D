@@ -11,22 +11,35 @@
 
 #include <queue>
 
-#include "Ref.h"
+#include "Object.h"
+#include "simplesignal.h"
 
-#define TIMER(time, event, if_repeat) \
+#define ADD_TIMER(time, if_repeat) \
 Timer timer;\
 timer.repeat = if_repeat;\
+timer.shouldStop = false;\
 timer._iIntvel = uint64_t(time * 1000);\
-timer._event = event;\
 timer._iGloble = timer._iIntvel + TimerEngine::GetSingleton().GlobleTime();\
-TimerEngine::GetSingleton().AddTimer(timer);\
+TimerEngine::GetSingleton().AddTimer(timer);
+
+#define TIMER(time, if_repeat, obj, func) \
+ADD_TIMER(time, if_repeat)\
+TimerEngine::GetSingleton().Map(obj, TimerEngine::TimerEvent.connect(Simple::slot(*obj, func)));\
+
+#define TIMER_UPDATA(class, obj)\
+ADD_TIMER(0.016f, true)\
+TimerEngine::GetSingleton().Map(obj, TimerEngine::TimerEvent.connect(Simple::slot(*obj, &class::Update)));\
+
+#define TIMER_DELETE(obj)\
+TimerEngine::GetSingleton().UnMap(obj)
+
 
 struct Timer
 {
     uint64_t _iIntvel;
     uint64_t _iGloble;
-    std::string _event;
     bool repeat;
+    bool shouldStop;
 
     bool operator < (const Timer& t) const
     {
@@ -34,7 +47,7 @@ struct Timer
     }
 };
 
-class TimerEngine : public Reference
+class TimerEngine : public Object
 {
 public:
     TimerEngine() : _iGlobleTime(0) {}
@@ -47,9 +60,17 @@ public:
     void Update(uint64_t addedTime);
 
     uint64_t GlobleTime() const {return _iGlobleTime;}
+
+    void Map(void* ptr, size_t connectId);
+    void UnMap(void* ptr);
+public:
+    //events
+    static Simple::Signal<void (float)> TimerEvent;
 private:
     std::priority_queue<Timer> _timers;
     uint64_t _iGlobleTime;
+
+    std::map<void*, std::vector<size_t>> _connectMap;
 
     static TimerEngine* _gInstance;
 };

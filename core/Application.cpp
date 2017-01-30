@@ -76,7 +76,6 @@ int Application::Run(int argc, char *argv[])
 
         if (_pCurScene.ptr())
         {
-            _pCurScene->Update(1.0f * (now - then) / 1000.0f);
             Render_GLES::getSingleton().BegainDraw();
             Render_GLES::getSingleton().DrawScene(_pCurScene);
             Render_GLES::getSingleton().EndDraw();

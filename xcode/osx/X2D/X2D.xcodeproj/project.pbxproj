@@ -83,6 +83,7 @@
 		4B5707851E3C5B6C00264EB6 /* heros.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B5707831E3C5B6C00264EB6 /* heros.png */; };
 		4B5707881E3C5B9700264EB6 /* TestGameScene1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707861E3C5B9700264EB6 /* TestGameScene1.cpp */; };
 		4B5707911E3C869000264EB6 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B57078F1E3C869000264EB6 /* Timer.cpp */; };
+		4B5707951E3E41BC00264EB6 /* EventSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707931E3E41BC00264EB6 /* EventSystem.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -360,6 +361,9 @@
 		4B5707871E3C5B9700264EB6 /* TestGameScene1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestGameScene1.h; sourceTree = "<group>"; };
 		4B57078F1E3C869000264EB6 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Timer.cpp; path = ../../../../core/Timer.cpp; sourceTree = "<group>"; };
 		4B5707901E3C869000264EB6 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Timer.h; path = ../../../../core/Timer.h; sourceTree = "<group>"; };
+		4B5707921E3E384200264EB6 /* simplesignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simplesignal.h; path = ../../../../core/simplesignal.h; sourceTree = "<group>"; };
+		4B5707931E3E41BC00264EB6 /* EventSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventSystem.cpp; path = ../../../../core/EventSystem.cpp; sourceTree = "<group>"; };
+		4B5707941E3E41BC00264EB6 /* EventSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventSystem.h; path = ../../../../core/EventSystem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -432,6 +436,7 @@
 		4B5705851E3887F700264EB6 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				4B5707921E3E384200264EB6 /* simplesignal.h */,
 				4B5707451E3C3B2F00264EB6 /* animation */,
 				4B5705881E38881400264EB6 /* io */,
 				4B57058D1E38881400264EB6 /* mathfu */,
@@ -447,6 +452,8 @@
 				4B5705B41E38881400264EB6 /* vectorial */,
 				4B57078F1E3C869000264EB6 /* Timer.cpp */,
 				4B5707901E3C869000264EB6 /* Timer.h */,
+				4B5707931E3E41BC00264EB6 /* EventSystem.cpp */,
+				4B5707941E3E41BC00264EB6 /* EventSystem.h */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -964,6 +971,7 @@
 				4B5706E11E38C73000264EB6 /* inflate.c in Sources */,
 				4B5706E21E38C73000264EB6 /* inftrees.c in Sources */,
 				4B5706C01E38C73000264EB6 /* filter_neon_intrinsics.c in Sources */,
+				4B5707951E3E41BC00264EB6 /* EventSystem.cpp in Sources */,
 				4B5705D51E38881400264EB6 /* ImageLoader.cpp in Sources */,
 				4B5707711E3C3B2F00264EB6 /* easing_circ.cpp in Sources */,
 				4B5706DB1E38C73000264EB6 /* adler32.c in Sources */,
