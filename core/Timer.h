@@ -11,7 +11,7 @@
 
 #include <queue>
 
-#include "Object.h"
+#include "node/Node.h"
 #include "simplesignal.h"
 
 #define ADD_TIMER(time, if_repeat) \
@@ -25,10 +25,6 @@ TimerEngine::GetSingleton().AddTimer(timer);
 #define TIMER(time, if_repeat, obj, func) \
 ADD_TIMER(time, if_repeat)\
 TimerEngine::GetSingleton().Map(obj, TimerEngine::TimerEvent.connect(Simple::slot(*obj, func)));\
-
-#define TIMER_UPDATA(class, obj)\
-ADD_TIMER(0.016f, true)\
-TimerEngine::GetSingleton().Map(obj, TimerEngine::TimerEvent.connect(Simple::slot(*obj, &class::Update)));\
 
 #define TIMER_DELETE(obj)\
 TimerEngine::GetSingleton().UnMap(obj)
@@ -63,14 +59,19 @@ public:
 
     void Map(void* ptr, size_t connectId);
     void UnMap(void* ptr);
+
+    void AddToUpdateList(Node* pNode);
+    void RemoveFromUpdateList(Node* pNode);
 public:
     //events
-    static Simple::Signal<void (float)> TimerEvent;
+    static Simple::Signal<void ()> TimerEvent;
 private:
     std::priority_queue<Timer> _timers;
     uint64_t _iGlobleTime;
 
     std::map<void*, std::vector<size_t>> _connectMap;
+
+    std::list<Node*> _updateList;
 
     static TimerEngine* _gInstance;
 };

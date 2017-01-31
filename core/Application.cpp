@@ -13,6 +13,7 @@
 #include "res/ImageLoader.h"
 #include "render/Render_GLES.h"
 #include "Timer.h"
+#include "AudioEngine.h"
 #include "SDL.h"
 
 Application* Application::_gInstance = memnew(Application);
@@ -47,6 +48,7 @@ void Application::Init()
     //for init
     ResourceManager::GetSingleton().AddLoader(memnew(ImageLoader));
     Render_GLES::getSingleton().Init();
+    AudioEngine::GetSingleton().Init();
 }
 
 const Sizef& Application::GetWinSize() const
@@ -73,6 +75,7 @@ int Application::Run(int argc, char *argv[])
 		uint32_t now = SDL_GetTicks();
 
         TimerEngine::GetSingleton().Update(now - then);
+        AudioEngine::GetSingleton().Update();
 
         if (_pCurScene.ptr())
         {
@@ -83,6 +86,9 @@ int Application::Run(int argc, char *argv[])
 
         then = now;
 	}
+
+    //deinit systems
+    Render_GLES::getSingleton().DeInit();
 
     return 0;
 }

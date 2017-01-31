@@ -11,6 +11,10 @@
 
 #include "node/Scene.h"
 #include "res/Texture.h"
+#include "node/Sprite.h"
+#include "animation/claw/tween/tweener_group.hpp"
+#include "animation/claw/tween/single_tweener.hpp"
+#include "animation/claw/tween/easing/easing_linear.hpp"
 
 class TestGameScene1 : public Scene
 {
@@ -22,10 +26,16 @@ public:
     virtual void Init();
     virtual void DeInit();
 
-    void TimerCallBack();
+    void AddMonster();
 
 private:
     Ref<Resource> _pTex;
+
+    Ref<Sprite> _pPlayer;
+
+    claw::tween::single_tweener* _single_tween;
+    claw::tween::single_tweener* _single_tween_back;
+    claw::tween::tweener_group* _group;
 };
 
 #endif /* TestGameScene1_h */

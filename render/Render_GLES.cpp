@@ -117,6 +117,8 @@ bool Render_GLES::DeInit()
 {
 	SDL_free(pContext);
 	SDL_free(pWindow);
+    glDeleteBuffers(1, &_vbos[VERTEX]);
+    glDeleteBuffers(1, &_vbos[INDICES]);
 
     return true;
 }

@@ -8,6 +8,7 @@
 
 #include "Node.h"
 #include "render/Render_GLES.h"
+#include "Timer.h"
 
 Node::Node()
 	: _iZOrder(0)
@@ -20,14 +21,19 @@ Node::Node()
 	, _bVisible(true)
 	, _bTransformDirty(true)
 	, _bClipByParent(false)
+    , _bShouldUpdate(true)
 {
 	_transform = mathfu::mat3::Identity();
 	_localTransform = mathfu::mat3::Identity();
+    _size._height = _size._width = 0;
+
+    TimerEngine::GetSingleton().AddToUpdateList(this);
 }
 
 Node::~Node()
 {
 	_parent = nullptr;
+    TimerEngine::GetSingleton().RemoveFromUpdateList(this);
 }
 
 void Node::Draw()

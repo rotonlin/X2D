@@ -1,7 +1,7 @@
 
 #include "Application.h"
 
-#include "examples/TestGameScene1.h"
+#include "examples/simplegame/TestGameScene1.h"
 
 int main(int argc, char* argv[])
 {

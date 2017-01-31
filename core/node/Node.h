@@ -19,6 +19,7 @@ public:
     virtual ~Node();
 
 	friend class Render_GLES;
+    friend class TimerEngine;
 
 	void AddChild(Ref<Node> node);
 	void RemoveChild(Ref<Node> node);
@@ -49,6 +50,9 @@ public:
 	_FORCE_INLINE_ void SetColor(const mathfu::vec4& rColor) { _color = rColor; };
 	_FORCE_INLINE_ const mathfu::vec4& Color() const { return _color; }
 
+    _FORCE_INLINE_ void SetAlpha(float fAlpha) { _color.w() = fAlpha; }
+    _FORCE_INLINE_ float GetAlpha() const { return _color.w(); }
+
 	_FORCE_INLINE_ Node* GetParent() const { return _parent; }
 
 	_FORCE_INLINE_ void SetScale(float fScale) { _fScale = fScale; _bTransformDirty = true; }
@@ -72,9 +76,13 @@ public:
 
 	_FORCE_INLINE_ void SetClipByParent(bool bClip) { _bClipByParent = bClip; }
 	_FORCE_INLINE_ bool ClipByParent() const { return _bClipByParent; }
+
+    _FORCE_INLINE_ bool ShouldUpdate() const { return _bShouldUpdate; }
 protected:
 	virtual void Draw();
 	virtual void Update(float fDelta);
+
+    void AddToUpdateList();
 
 	void SortChilds();
 
@@ -89,6 +97,8 @@ protected:
 	float _fScale;
 	bool _bVisible;
 	bool _bClipByParent;
+
+    bool _bShouldUpdate;
 
 	//tranform
 	mathfu::mat3 _transform;

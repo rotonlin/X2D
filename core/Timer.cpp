@@ -9,7 +9,7 @@
 #include "Timer.h"
 
 //events
-Simple::Signal<void (float)> TimerEngine::TimerEvent;
+Simple::Signal<void ()> TimerEngine::TimerEvent;
 
 
 TimerEngine* TimerEngine::_gInstance = memnew(TimerEngine);
@@ -23,6 +23,15 @@ void TimerEngine::Update(uint64_t addedTime)
 {
     _iGlobleTime += addedTime;
 
+    //update nodes
+    for (std::list<Node*>::iterator iter = _updateList.begin(); iter != _updateList.end(); ++iter)
+    {
+        if ((*iter)->ShouldUpdate())
+        {
+            (*iter)->Update(addedTime * 1.0 / 1000);
+        }
+    }
+
     while (!_timers.empty())
     {
         const Timer& t = _timers.top();
@@ -35,7 +44,7 @@ void TimerEngine::Update(uint64_t addedTime)
             }
             //printf("timer finished event : %s\n", t._event.c_str());
             //emit events
-            TimerEvent.emit(addedTime * 1.0 / 1000);
+            TimerEvent.emit();
 
             if (t.repeat)
             {
@@ -79,3 +88,16 @@ void TimerEngine::AddTimer(Timer &rTimer)
 {
     _timers.push(rTimer);
 }
+
+void TimerEngine::AddToUpdateList(Node *pNode)
+{
+    _updateList.push_back(pNode);
+}
+
+void TimerEngine::RemoveFromUpdateList(Node *pNode)
+{
+    _updateList.remove(pNode);
+}
+
+
+

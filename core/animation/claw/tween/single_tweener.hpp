@@ -75,6 +75,7 @@ namespace claw
       void set_easing( easing_function f );
 
       double get_value() const;
+      void reset() { m_date = 0; };
 
     private:
       single_tweener* do_clone() const;
