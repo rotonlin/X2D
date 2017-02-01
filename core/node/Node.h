@@ -11,6 +11,14 @@
 #include "Ref.h"
 #include "core/MathUtility.h"
 
+namespace claw
+{
+    namespace tween
+    {
+        class base_tweener;
+    }
+}
+
 //---------------------------------------
 class Node : public Reference
 {
@@ -23,7 +31,7 @@ public:
 
 	void AddChild(Ref<Node> node);
 	void RemoveChild(Ref<Node> node);
-	void RemoveFromParent(Ref<Node> self);
+	void RemoveFromParent();
 
 	void ConvertToGLSpace(mathfu::vec2& rVec2);
 	void GetGloblePosition(mathfu::vec2& rVec2);
@@ -32,8 +40,9 @@ public:
 	_FORCE_INLINE_ void SetZOrder(int iZOrder) { _iZOrder = iZOrder; _bSortDirty = true; };
 	_FORCE_INLINE_ int ZOrder() const { return _iZOrder; }
 
-	_FORCE_INLINE_ void SetPosition(const mathfu::vec2& rPos) { _position = rPos; _bTransformDirty = true;
-	}
+	_FORCE_INLINE_ void SetPosition(const mathfu::vec2& rPos) { _position = rPos; _bTransformDirty = true;}
+    _FORCE_INLINE_ void SetPositionX(float x) { _position.x() = x; _bTransformDirty = true;}
+    _FORCE_INLINE_ void SetPositionY(float y) { _position.y() = y; _bTransformDirty = true;}
 	_FORCE_INLINE_ const mathfu::vec2& Position() const { return _position; }
 
 	_FORCE_INLINE_ void SetSize(const Sizef& rSize) { _size = rSize; _bTransformDirty = true;}
@@ -78,6 +87,11 @@ public:
 	_FORCE_INLINE_ bool ClipByParent() const { return _bClipByParent; }
 
     _FORCE_INLINE_ bool ShouldUpdate() const { return _bShouldUpdate; }
+
+    _FORCE_INLINE_ void AddTweener(claw::tween::base_tweener* pTweener) { _pCurTweener = pTweener; }
+     void StopTweener();
+
+    _FORCE_INLINE_ bool Valid() const { return _bValid; }
 protected:
 	virtual void Draw();
 	virtual void Update(float fDelta);
@@ -106,9 +120,12 @@ protected:
 private:
 	bool _bSortDirty;
 	bool _bTransformDirty;
+    bool _bValid;
 
 	Node* _parent;//weak ref
 	std::list<Ref<Node>> _childs;
+
+    claw::tween::base_tweener* _pCurTweener;
 };
 
 #endif /* Node_h */

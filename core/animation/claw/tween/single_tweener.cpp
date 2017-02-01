@@ -59,7 +59,7 @@ static void local_swap( double& a, double& b )
  * \brief Default constructor.
  */
 claw::tween::single_tweener::single_tweener()
-  : m_date(0), m_easing( easing_none::ease_in_out )
+  : m_date(0), m_easing( easing_none::ease_in_out ), _bRepeat(false)
 {
 
 } // single_tweener::single_tweener()
@@ -77,7 +77,7 @@ claw::tween::single_tweener::single_tweener
 ( double init, double end, double duration, update_function callback,
   easing_function e )
   : m_init(init), m_end(end), m_date(0), m_duration(duration),
-    m_callback(callback), m_easing(e)
+    m_callback(callback), m_easing(e), _bRepeat(false)
 {
 
 } // single_tweener::single_tweener()
@@ -201,6 +201,14 @@ double claw::tween::single_tweener::do_update( double dt )
   const double val( get_value() );
 
   m_callback(val);
+
+    if (_bRepeat)
+    {
+        if (do_is_finished())
+        {
+            m_date = 0;
+        }
+    }
 
   return result;
 } // single_tweener::do_update()

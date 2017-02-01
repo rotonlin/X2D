@@ -12,9 +12,8 @@
 #include "node/Scene.h"
 #include "res/Texture.h"
 #include "node/Sprite.h"
-#include "animation/claw/tween/tweener_group.hpp"
-#include "animation/claw/tween/single_tweener.hpp"
-#include "animation/claw/tween/easing/easing_linear.hpp"
+
+union SDL_Event;
 
 class TestGameScene1 : public Scene
 {
@@ -27,15 +26,13 @@ public:
     virtual void DeInit();
 
     void AddMonster();
+    void Shoot();
 
+    void OnInput(const SDL_Event* pEvent);
 private:
     Ref<Resource> _pTex;
 
     Ref<Sprite> _pPlayer;
-
-    claw::tween::single_tweener* _single_tween;
-    claw::tween::single_tweener* _single_tween_back;
-    claw::tween::tweener_group* _group;
 };
 
 #endif /* TestGameScene1_h */

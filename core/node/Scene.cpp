@@ -20,7 +20,7 @@ Scene::~Scene()
 
 void Scene::Update(float fDelta)
 {
-
+    Node::Update(fDelta);
 }
 
 void Scene::Init()

@@ -43,7 +43,7 @@
 
 #define memnew(class_type) (new (std::nothrow) class_type)
 
-#define memdelete(class_type) delete class_type
+#define memdelete(class_type) delete class_type; class_type = nullptr
 
 #define memnew_arr(class_type, size) (new (std::nothrow) class_type[size])
 

@@ -24,14 +24,6 @@ void TimerEngine::Update(uint64_t addedTime)
     _iGlobleTime += addedTime;
 
     //update nodes
-    for (std::list<Node*>::iterator iter = _updateList.begin(); iter != _updateList.end(); ++iter)
-    {
-        if ((*iter)->ShouldUpdate())
-        {
-            (*iter)->Update(addedTime * 1.0 / 1000);
-        }
-    }
-
     while (!_timers.empty())
     {
         const Timer& t = _timers.top();
@@ -87,16 +79,6 @@ void TimerEngine::UnMap(void *ptr)
 void TimerEngine::AddTimer(Timer &rTimer)
 {
     _timers.push(rTimer);
-}
-
-void TimerEngine::AddToUpdateList(Node *pNode)
-{
-    _updateList.push_back(pNode);
-}
-
-void TimerEngine::RemoveFromUpdateList(Node *pNode)
-{
-    _updateList.remove(pNode);
 }
 
 

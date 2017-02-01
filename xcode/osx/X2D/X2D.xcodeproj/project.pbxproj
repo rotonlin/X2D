@@ -74,7 +74,6 @@
 		4B5707781E3C3B2F00264EB6 /* easing_quart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B57075D1E3C3B2F00264EB6 /* easing_quart.cpp */; };
 		4B5707791E3C3B2F00264EB6 /* easing_quint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B57075F1E3C3B2F00264EB6 /* easing_quint.cpp */; };
 		4B57077A1E3C3B2F00264EB6 /* easing_sine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707611E3C3B2F00264EB6 /* easing_sine.cpp */; };
-		4B57077B1E3C3B2F00264EB6 /* symmetric_easing.tpp in Resources */ = {isa = PBXBuildFile; fileRef = 4B5707641E3C3B2F00264EB6 /* symmetric_easing.tpp */; };
 		4B57077C1E3C3B2F00264EB6 /* single_tweener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707661E3C3B2F00264EB6 /* single_tweener.cpp */; };
 		4B57077D1E3C3B2F00264EB6 /* tweener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707681E3C3B2F00264EB6 /* tweener.cpp */; };
 		4B57077E1E3C3B2F00264EB6 /* tweener_group.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B57076A1E3C3B2F00264EB6 /* tweener_group.cpp */; };
@@ -86,6 +85,8 @@
 		4B5707BB1E3F91E200264EB6 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B5707BA1E3F91E200264EB6 /* libfmod.dylib */; };
 		4B5707BC1E3F91EC00264EB6 /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B5707BA1E3F91E200264EB6 /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4B5707BF1E3F957900264EB6 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707BD1E3F957900264EB6 /* AudioEngine.cpp */; };
+		4B5707C21E403B9A00264EB6 /* AudioLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707C01E403B9A00264EB6 /* AudioLoader.cpp */; };
+		4B5707C61E41A4CC00264EB6 /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B5707C41E41A4CC00264EB6 /* InputSystem.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -379,6 +380,10 @@
 		4B5707BA1E3F91E200264EB6 /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../third_partys/fmodstudio/lib/osx/libfmod.dylib; sourceTree = "<group>"; };
 		4B5707BD1E3F957900264EB6 /* AudioEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioEngine.cpp; path = ../../../../core/AudioEngine.cpp; sourceTree = "<group>"; };
 		4B5707BE1E3F957900264EB6 /* AudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioEngine.h; path = ../../../../core/AudioEngine.h; sourceTree = "<group>"; };
+		4B5707C01E403B9A00264EB6 /* AudioLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioLoader.cpp; sourceTree = "<group>"; };
+		4B5707C11E403B9A00264EB6 /* AudioLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioLoader.h; sourceTree = "<group>"; };
+		4B5707C41E41A4CC00264EB6 /* InputSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputSystem.cpp; path = ../../../../core/InputSystem.cpp; sourceTree = "<group>"; };
+		4B5707C51E41A4CC00264EB6 /* InputSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputSystem.h; path = ../../../../core/InputSystem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -473,6 +478,8 @@
 				4B5707901E3C869000264EB6 /* Timer.h */,
 				4B5707BD1E3F957900264EB6 /* AudioEngine.cpp */,
 				4B5707BE1E3F957900264EB6 /* AudioEngine.h */,
+				4B5707C41E41A4CC00264EB6 /* InputSystem.cpp */,
+				4B5707C51E41A4CC00264EB6 /* InputSystem.h */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -546,6 +553,8 @@
 				4B5705B11E38881400264EB6 /* Texture.h */,
 				4B5705B21E38881400264EB6 /* ImageLoader.cpp */,
 				4B5705B31E38881400264EB6 /* ImageLoader.h */,
+				4B5707C01E403B9A00264EB6 /* AudioLoader.cpp */,
+				4B5707C11E403B9A00264EB6 /* AudioLoader.h */,
 			);
 			name = res;
 			path = ../../../../core/res;
@@ -995,7 +1004,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B57077B1E3C3B2F00264EB6 /* symmetric_easing.tpp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1061,6 +1069,7 @@
 				4B5705CA1E38881400264EB6 /* Application.cpp in Sources */,
 				4B5705DE1E38B13800264EB6 /* Render_GLES.cpp in Sources */,
 				4B5705D21E38881400264EB6 /* ResourceCache.cpp in Sources */,
+				4B5707C61E41A4CC00264EB6 /* InputSystem.cpp in Sources */,
 				4B5705D01E38881400264EB6 /* Image.cpp in Sources */,
 				4B5707771E3C3B2F00264EB6 /* easing_quad.cpp in Sources */,
 				4B5705CE1E38881400264EB6 /* Sprite.cpp in Sources */,
@@ -1068,6 +1077,7 @@
 				4B57077F1E3C3B2F00264EB6 /* tweener_sequence.cpp in Sources */,
 				4B5705CC1E38881400264EB6 /* Node.cpp in Sources */,
 				4B5706CD1E38C73000264EB6 /* pngwio.c in Sources */,
+				4B5707C21E403B9A00264EB6 /* AudioLoader.cpp in Sources */,
 				4B5706BE1E38C73000264EB6 /* arm_init.c in Sources */,
 				4B5705D31E38881400264EB6 /* ResourceManager.cpp in Sources */,
 			);

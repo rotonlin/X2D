@@ -13,6 +13,10 @@
 #include "Application.h"
 #include "AudioEngine.h"
 #include "Timer.h"
+#include "InputSystem.h"
+#include "animation/claw/tween/single_tweener.hpp"
+#include "animation/claw/tween/tweener_group.hpp"
+#include "animation/claw/tween/easing/easing_linear.hpp"
 
 TestGameScene1::TestGameScene1()
 {
@@ -26,7 +30,29 @@ TestGameScene1::~TestGameScene1()
 
 void TestGameScene1::Update(float fDelta)
 {
-    
+    Scene::Update(fDelta);
+
+    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+    //continuous-response keys
+    if(keystate[SDL_SCANCODE_W])
+    {
+        _pPlayer->SetPositionY(_pPlayer->Position().y() - 3);
+    }
+
+    if(keystate[SDL_SCANCODE_S])
+    {
+        _pPlayer->SetPositionY(_pPlayer->Position().y() + 3);
+    }
+
+    if(keystate[SDL_SCANCODE_A])
+    {
+        _pPlayer->SetPositionX(_pPlayer->Position().x() - 3);
+    }
+
+    if(keystate[SDL_SCANCODE_D])
+    {
+        _pPlayer->SetPositionX(_pPlayer->Position().x() + 3);
+    }
 }
 
 void TestGameScene1::Init()
@@ -43,18 +69,78 @@ void TestGameScene1::Init()
     _pPlayer->SetSize(Sizef(54.0f, 80.0f));
     _pPlayer->SetTexture(_pTex);
     AddChild(_pPlayer);
+    _pPlayer->SetZOrder(100000);
 
-    AudioEngine::GetSingleton().LoadBank("/Users/roton/Desktop/AllM3Code/X2D/examples/simplegame/Master Bank.bank");
-    AudioEngine::GetSingleton().LoadBank("/Users/roton/Desktop/AllM3Code/X2D/examples/simplegame/Master Bank.strings.bank");
+    Load_Res("/Users/roton/Desktop/AllM3Code/X2D/examples/simplegame/Master Bank.bank");
+    Load_Res("/Users/roton/Desktop/AllM3Code/X2D/examples/simplegame/Master Bank.strings.bank");
 
     AudioEngine::GetSingleton().PlayBackgroundMusic("event:/simplegame/background");
 
     TIMER(1.5, true, this, &TestGameScene1::AddMonster);
+    INPUT_MAP(this, &TestGameScene1::OnInput);
 }
 
 void TestGameScene1::DeInit()
 {
     TIMER_DELETE(this);
+    INPUT_UNMAP(this);
+}
+
+void TestGameScene1::OnInput(const SDL_Event *pEvent)
+{
+    if (pEvent->type == SDL_KEYUP)
+    {
+        if (pEvent->key.keysym.sym == SDLK_SPACE)
+        {
+            Shoot();
+        }
+    }
+}
+
+void TestGameScene1::Shoot()
+{
+    AudioEngine::GetSingleton().PlayEvent("event:/simplegame/shoot");
+    Ref<Sprite> pBullet = memnew(Sprite);
+    Ref<Resource> pTexProj = Load_Res("/Users/roton/Desktop/AllM3Code/X2D/examples/simplegame/projectile.png");
+    pBullet->SetTexture(pTexProj);
+    pBullet->SetSize(Sizef(40.0f, 40.0f));
+
+    const mathfu::vec2& playerPos = _pPlayer->Position();
+    const Sizef& playerSize = _pPlayer->Size();
+    pBullet->SetPosition(mathfu::vec2(playerPos.x() + playerSize._width / 2, playerPos.y()));
+
+    //animation
+    const Sizef& winSize = Application::GetSingleton().GetWinSize();
+    Sprite* pMons = pBullet.ptr();
+    claw::tween::single_tweener moveToX = claw::tween::single_tweener(
+                                                               pBullet->Position().x() ,
+                                                               winSize._width, 1.5,
+                                                               [pMons](double update)
+                                                               {
+                                                                   pMons->SetPositionX(update);
+                                                               }, claw::tween::easing_linear::ease_in);
+
+    claw::tween::single_tweener rotationSelf = claw::tween::single_tweener(
+                                                                      0.0f,
+                                                                      M_PI * 2.0f,
+                                                                      0.5f,
+                                                                      [pMons](double update)
+                                                                      {
+                                                                          pMons->SetRotation(update);
+                                                                      }, claw::tween::easing_linear::ease_in);
+    rotationSelf.set_repeat(true);
+
+    claw::tween::tweener_group *pMoveAndRotate = memnew(claw::tween::tweener_group);
+    pMoveAndRotate->insert(moveToX);
+    pMoveAndRotate->insert(rotationSelf);
+
+    pMoveAndRotate->on_finished([pMons]
+    {
+        pMons->RemoveFromParent();
+    });
+    
+    pBullet->AddTweener(pMoveAndRotate);
+    AddChild(pBullet);
 }
 
 void TestGameScene1::AddMonster()
@@ -80,10 +166,21 @@ void TestGameScene1::AddMonster()
     int rangeDuration = maxDuration - minDuration;
     int randomDuration = (rand() % rangeDuration) + minDuration;
 
-    // 3
-    //auto actionMove = MoveTo::create(randomDuration, Vec2(-monsterContentSize.width/2, randomY));
-    //auto actionRemove = RemoveSelf::create();
-    //pMonster->runAction(Sequence::create(actionMove,actionRemove, nullptr));
+    //animation
+    Sprite* pMons = pMonster.ptr();
+    claw::tween::single_tweener* pMoveToX = memnew(claw::tween::single_tweener(
+                                               pMonster->Position().x() ,
+                                                -monsterContentSize._width / 2, randomDuration,
+                                               [pMons](double update)
+                                                {
+                                                    pMons->SetPositionX(update);
+                                                }, claw::tween::easing_linear::ease_in));
+    pMoveToX->on_finished([pMons]
+    {
+        pMons->RemoveFromParent();
+    });
+
+    pMonster->AddTweener(pMoveToX);
 }
 
 

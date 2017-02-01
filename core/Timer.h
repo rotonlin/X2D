@@ -59,9 +59,6 @@ public:
 
     void Map(void* ptr, size_t connectId);
     void UnMap(void* ptr);
-
-    void AddToUpdateList(Node* pNode);
-    void RemoveFromUpdateList(Node* pNode);
 public:
     //events
     static Simple::Signal<void ()> TimerEvent;
@@ -70,8 +67,6 @@ private:
     uint64_t _iGlobleTime;
 
     std::map<void*, std::vector<size_t>> _connectMap;
-
-    std::list<Node*> _updateList;
 
     static TimerEngine* _gInstance;
 };

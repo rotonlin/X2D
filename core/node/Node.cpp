@@ -9,6 +9,7 @@
 #include "Node.h"
 #include "render/Render_GLES.h"
 #include "Timer.h"
+#include "animation/claw/tween/base_tweener.hpp"
 
 Node::Node()
 	: _iZOrder(0)
@@ -22,18 +23,17 @@ Node::Node()
 	, _bTransformDirty(true)
 	, _bClipByParent(false)
     , _bShouldUpdate(true)
+    , _pCurTweener(nullptr)
+    , _bValid(true)
 {
 	_transform = mathfu::mat3::Identity();
 	_localTransform = mathfu::mat3::Identity();
     _size._height = _size._width = 0;
-
-    TimerEngine::GetSingleton().AddToUpdateList(this);
 }
 
 Node::~Node()
 {
 	_parent = nullptr;
-    TimerEngine::GetSingleton().RemoveFromUpdateList(this);
 }
 
 void Node::Draw()
@@ -41,9 +41,40 @@ void Node::Draw()
 	
 }
 
+void Node::StopTweener()
+{
+    if (_pCurTweener)
+    {
+        memdelete(_pCurTweener);
+    }
+}
+
 void Node::Update(float fDelta)
 {
+    if (_pCurTweener)
+    {
+        if (_pCurTweener->is_finished())
+        {
+            memdelete(_pCurTweener);
+        }
+        else
+        {
+            _pCurTweener->update(fDelta);
+        }
+    }
 
+    for (std::list<Ref<Node>>::iterator iter = _childs.begin(); iter != _childs.end();)
+    {
+        if (!(*iter)->Valid())
+        {
+            iter = _childs.erase(iter);
+            continue;
+        }
+
+        (*iter)->Update(fDelta);
+
+        ++iter;
+    }
 }
 
 void Node::AddChild(Ref<Node> node)
@@ -60,15 +91,12 @@ void Node::AddChild(Ref<Node> node)
 
 void Node::RemoveChild(Ref<Node> node)
 {
-	_childs.remove(node);
+    node->RemoveFromParent();
 }
 
-void Node::RemoveFromParent(Ref<Node> self)
+void Node::RemoveFromParent()
 {
-	if (_parent)
-	{
-		_parent->RemoveChild(self);
-	}
+    _bValid = false;
 }
 
 void Node::SortChilds()

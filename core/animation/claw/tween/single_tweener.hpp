@@ -77,6 +77,8 @@ namespace claw
       double get_value() const;
       void reset() { m_date = 0; };
 
+      void set_repeat(bool bRepeat) { _bRepeat = bRepeat;}
+      bool repeat() const {return _bRepeat;};
     private:
       single_tweener* do_clone() const;
       bool do_is_finished() const;
@@ -100,7 +102,8 @@ namespace claw
 
       /** \brief The function used to compute the new value. */
       easing_function m_easing;
-      
+
+        bool _bRepeat;
     }; // class single_tweener
 
   } // namespace tween
