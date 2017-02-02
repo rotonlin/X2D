@@ -51,6 +51,7 @@ namespace claw
       typedef std::function<void ()> finish_callback;
 
     public:
+        base_tweener() : _bFinishGroupWhenFinished(false){};
       virtual ~base_tweener();
 
       base_tweener* clone() const;
@@ -59,7 +60,9 @@ namespace claw
       double update( double dt );
 
       void on_finished( finish_callback f );
-      
+        
+        void set_finish_group_when_finished(bool f) { _bFinishGroupWhenFinished = f;}
+        bool finishGroup() {return _bFinishGroupWhenFinished;}
     private:
       void notify_finished() const;
 
@@ -83,6 +86,8 @@ namespace claw
     private:
       /** \brief The callback executed when the tweener is finished. */
       std::list<finish_callback> m_on_finished;
+
+      bool _bFinishGroupWhenFinished;
 
     }; // class base_tweener
 

@@ -77,6 +77,7 @@ double claw::tween::tweener_group::do_update( double dt )
 
   iterator_type it = m_tweeners.begin();
 
+    bool bFinishGroup = false;
   while ( it != m_tweeners.end() )
     {
       const double r = it->update(dt);
@@ -84,12 +85,22 @@ double claw::tween::tweener_group::do_update( double dt )
 
       if ( it->is_finished() )
         {
+            if (it->finishGroup())
+            {
+                bFinishGroup = true;
+            }
+
           const iterator_type tmp(it);
           ++it;
           m_tweeners.erase(tmp);
         }
       else
         ++it;
+    }
+
+    if (bFinishGroup)
+    {
+        clear();
     }
 
   return result;

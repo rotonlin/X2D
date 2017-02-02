@@ -118,6 +118,15 @@ double claw::tween::tweener::update( double dt )
     return m_impl->update(dt);
 } // tweener::update()
 
+bool claw::tween::tweener::finishGroup()
+{
+    if (m_impl == NULL) {
+        return false;
+    } else{
+        return m_impl->finishGroup();
+    }
+}
+
 /*----------------------------------------------------------------------------*/
 /**
  * \brief Execute the callbacks notifying about the finish of the tweener.

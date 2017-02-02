@@ -68,7 +68,7 @@ namespace claw
       double update( double dt );
 
       void on_finished( finish_callback f );
-      
+        bool finishGroup();
     private:
       /** \brief The implementation of this tweener. */
       base_tweener* m_impl;

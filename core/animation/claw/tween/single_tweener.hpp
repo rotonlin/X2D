@@ -79,6 +79,7 @@ namespace claw
 
       void set_repeat(bool bRepeat) { _bRepeat = bRepeat;}
       bool repeat() const {return _bRepeat;};
+
     private:
       single_tweener* do_clone() const;
       bool do_is_finished() const;
